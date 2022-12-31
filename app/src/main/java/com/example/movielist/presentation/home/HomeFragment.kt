@@ -1,4 +1,4 @@
-package com.example.movielist.ui.home
+package com.example.movielist.presentation.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
