@@ -1,6 +1,6 @@
 package com.example.movielist.data.remote
 
-import com.example.movielist.domain.Entity.DiscoverMovie
+import com.example.movielist.domain.entity.DiscoverMovie
 import retrofit2.http.GET
 import retrofit2.http.Query
 

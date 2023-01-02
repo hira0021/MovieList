@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movielist.databinding.ItemMovieBinding
-import com.example.movielist.domain.Entity.Movie
+import com.example.movielist.domain.entity.Movie
 
 class HomeMovieAdapter : RecyclerView.Adapter<HomeMovieAdapter.HomeMovieViewHolder>() {
 
