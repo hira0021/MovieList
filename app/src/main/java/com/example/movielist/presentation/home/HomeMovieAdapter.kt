@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.movielist.databinding.ItemMovieBinding
 import com.example.movielist.domain.entity.Movie
 
@@ -42,6 +43,12 @@ class HomeMovieAdapter : RecyclerView.Adapter<HomeMovieAdapter.HomeMovieViewHold
         holder.binding.apply {
             val movie = movies[position]
             tvMovieTitle.text = movie.title
+            tvMovieGenre.text = "Genre : " + movie.genre_ids
+            tvMovieReleaseDate.text = "Release date : " + movie.release_date
+            Glide.with(movieImageView.context)
+                .load("https://image.tmdb.org/t/p/w500/" + movie.poster_path)
+                .into(movieImageView)
+            tvRating.text = movie.vote_average.toString()
         }
     }
 
