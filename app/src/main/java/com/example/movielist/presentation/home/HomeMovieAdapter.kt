@@ -11,10 +11,32 @@ import com.example.movielist.domain.entity.Genre
 import com.example.movielist.domain.entity.Movie
 import com.example.movielist.util.Const
 
-class HomeMovieAdapter : RecyclerView.Adapter<HomeMovieAdapter.HomeMovieViewHolder>() {
+class HomeMovieAdapter(
+    private val clickListener: (Movie) -> Unit
+) : RecyclerView.Adapter<HomeMovieAdapter.HomeMovieViewHolder>() {
 
     inner class HomeMovieViewHolder(val binding: ItemMovieBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(movie: Movie, clickListener: (Movie) -> Unit) {
+            binding.apply {
+                tvMovieTitle.text = movie.title
+                val genreName = setGenreIdToName(movie)
+                tvMovieGenre.text = "Genre : " +
+                        genreName.toString()
+                            .replace('[', ' ')
+                            .replace(']', ' ')
+                tvMovieReleaseDate.text = "Release date : " + movie.release_date
+                Glide.with(movieImageView.context)
+                    .load(Const.IMAGE_BASE_URL + movie.poster_path)
+                    .into(movieImageView)
+                tvRating.text = movie.vote_average.toString()
+
+                binding.cardMovie.setOnClickListener {
+                    clickListener(movie)
+                }
+            }
+        }
+    }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
@@ -40,29 +62,19 @@ class HomeMovieAdapter : RecyclerView.Adapter<HomeMovieAdapter.HomeMovieViewHold
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
         )
     }
 
     override fun onBindViewHolder(holder: HomeMovieViewHolder, position: Int) {
-        holder.binding.apply {
-            val movie = movies[position]
-            tvMovieTitle.text = movie.title
-            val genreName = setGenreIdToName(movie)
-            tvMovieGenre.text = "Genre : " + genreName.toString()
-            tvMovieReleaseDate.text = "Release date : " + movie.release_date
-            Glide.with(movieImageView.context)
-                .load(Const.IMAGE_BASE_URL + movie.poster_path)
-                .into(movieImageView)
-            tvRating.text = movie.vote_average.toString()
-        }
+        holder.bind(movies[position], clickListener)
     }
 
     fun setGenreIdToName(movie: Movie): List<String> {
         var filteredGenre: List<String> = listOf()
         for (i in genreList.indices) {
             for (j in movie.genre_ids.indices) {
-                if (genreList[i].id == movie.genre_ids[j]){
+                if (genreList[i].id == movie.genre_ids[j]) {
                     val genre = genreList[i]
                     filteredGenre = filteredGenre + genre.name
                 }

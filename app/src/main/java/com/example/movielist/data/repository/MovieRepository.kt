@@ -2,8 +2,8 @@ package com.example.movielist.data.repository
 
 import com.example.movielist.data.datasource.IMovieDataSource
 import com.example.movielist.domain.entity.DiscoverMovie
-import com.example.movielist.domain.entity.Genre
 import com.example.movielist.domain.entity.GenreList
+import com.example.movielist.domain.entity.MovieDetail
 import com.example.movielist.domain.repository.IMovieRepository
 import com.example.movielist.util.DataState
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +17,10 @@ class MovieRepository @Inject constructor(val movieDataSource: IMovieDataSource)
 
     override suspend fun getGenreList(): Flow<GenreList> {
         return movieDataSource.getGenreListFromDataSource()
+    }
+
+    override suspend fun getMovieDetail(movieId: Int): Flow<DataState<MovieDetail>> {
+        return movieDataSource.getMovieDetail(movieId)
     }
 
 }

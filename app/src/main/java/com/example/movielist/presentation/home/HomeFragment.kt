@@ -1,7 +1,7 @@
 package com.example.movielist.presentation.home
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movielist.databinding.FragmentHomeBinding
 import com.example.movielist.domain.entity.Movie
+import com.example.movielist.presentation.moviedetail.MovieDetailActivity
 import com.example.movielist.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +26,8 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
 
     private lateinit var homeMovieAdapter: HomeMovieAdapter
+
+    private lateinit var selectedMovie: Movie
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,9 +79,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() = binding.rvHomeMovie.apply {
-        homeMovieAdapter = HomeMovieAdapter()
+        homeMovieAdapter = HomeMovieAdapter { selectedItem: Movie -> listMovieClicked(selectedItem) }
         adapter = homeMovieAdapter
         layoutManager = LinearLayoutManager(activity)
+    }
+
+    private fun listMovieClicked(movie: Movie) {
+        selectedMovie = movie
+        val intent = Intent(activity, MovieDetailActivity::class.java)
+        intent.putExtra("movieId", selectedMovie.id)
+        startActivity(intent)
     }
 
     private fun showLoading() {
