@@ -1,6 +1,7 @@
 package com.example.movielist.presentation.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,15 +42,25 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        homeViewModel.setStateEvent()
+
+        //get Genre list for discover movie
+        homeViewModel.getGenreListForDiscoverMovie()
+        homeViewModel.genreList.observe(viewLifecycleOwner) {
+            if (it != null) {
+                homeMovieAdapter.genreList = it.genres
+            }
+        }
+
+        // get Discover Movie List
+        homeViewModel.getDiscoverMovie()
         homeViewModel.discoverMovieData.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {
-                    processSuccess(it.data.movies)
+                    discoverMovieProcessSuccess(it.data.movies)
                     stopLoading()
                 }
                 is DataState.Error -> {
-                    processFailure(it.exception)
+                    discoverMovieProcessFailure(it.exception)
                     stopLoading()
                 }
                 is DataState.Loading -> {
@@ -78,12 +89,12 @@ class HomeFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
     }
 
-    private fun processSuccess(data: List<Movie>) {
+    private fun discoverMovieProcessSuccess(data: List<Movie>) {
         binding.textHome.text = ""
         homeMovieAdapter.movies = data
     }
 
-    private fun processFailure(e: Exception) {
+    private fun discoverMovieProcessFailure(e: Exception) {
         binding.textHome.text = e.toString()
     }
 }
