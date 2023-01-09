@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movielist.domain.UseCase.MovieUseCase
+import com.example.movielist.domain.entity.GenreList
 import com.example.movielist.domain.entity.MovieDetail
 import com.example.movielist.util.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,9 @@ class MovieDetailViewModel @Inject constructor(val movieInteractor: MovieUseCase
 
     private val _movieDetail: MutableLiveData<DataState<MovieDetail>> = MutableLiveData()
     val movieDetail: LiveData<DataState<MovieDetail>> = _movieDetail
+
+    private val _genreList: MutableLiveData<GenreList> = MutableLiveData()
+    val genreList: LiveData<GenreList> = _genreList
 
     fun getMovieDetail(movieId: Int) = viewModelScope.launch {
         movieInteractor.getMovieDetail(movieId)

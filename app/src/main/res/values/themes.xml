@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.MovieList" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/brown_700</item>
+        <item name="colorPrimaryVariant">@color/brown_900</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -19,4 +19,45 @@
     </style>
     <style name="Theme.MovieList.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.MovieList.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ToolbarColoredBackArrow" parent="Theme.MovieList">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+    <style name="BackgroundColor" parent="Theme.MovieList">
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+
+    <style name="AppBarColor" parent="Theme.MovieList">
+        <item name="android:background">@color/brown_700</item>
+    </style>
+
+    <style name="BottomNavStyle" parent="Theme.MovieList">
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="ItemListText" parent="Theme.MovieList">
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+
+    // TAB LAYOUT STYLE
+    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+        <!--<item name="tabMaxWidth">@dimen/tab_max_width</item>-->
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabPaddingStart">6dp</item>
+        <item name="tabPaddingEnd">6dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <!--<item name="tabTextAppearance">@style/AppTabTextAppearance</item>-->
+        <!--<item name="tabSelectedTextColor">@color/range</item>-->
+    </style>
+
+    <!-- for text -->
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">12sp</item>
+        <!--<item name="android:textColor">@color/orange</item>-->
+        <item name="textAllCaps">false</item>
+    </style>
+
 </resources>

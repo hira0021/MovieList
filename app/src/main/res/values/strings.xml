@@ -17,4 +17,14 @@
     <string name="release_date_placeholder">Release date : 2022-12-14</string>
     <string name="genre_placeholder">Genre : Action, Adventure, Fantasy, Sci-Fi</string>
     <string name="title_placeholder">The Chronicle of Narnia : The Lion the Witch and the Wadrobe</string>
+    <string name="overview">Overview</string>
+    <string name="cast">Cast</string>
+    <string name="review">Review</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tittle_placeholder">The Chronicle Of Narnia : The Lion The Witch and The Wadrobe</string>
+
+    <string name="string_release_date">Release Date : %1$s</string>
+    <string name="string_genre">Genre : %1$s</string>
+    <string name="string_rating">%1$s / 10</string>
 </resources>
