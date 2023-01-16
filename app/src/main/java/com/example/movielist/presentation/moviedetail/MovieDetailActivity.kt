@@ -12,6 +12,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.example.movielist.databinding.ActivityMovieDetailBinding
 import com.example.movielist.domain.entity.MovieDetail
+import com.example.movielist.presentation.moviedetail.cast.MoviewDetailCastFragment
+import com.example.movielist.presentation.moviedetail.overview.MovieDetailOverviewFragment
+import com.example.movielist.presentation.moviedetail.review.MovieDetailReviewFragment
 import com.example.movielist.util.Const
 import com.example.movielist.util.DataState
 import com.google.android.material.tabs.TabLayoutMediator
@@ -125,8 +128,8 @@ class MovieDetailActivity : AppCompatActivity() {
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> MovieDetailOverviewFragment(movieId)
-                1 -> MoviewDetailCastFragment()
-                2 -> MovieDetailReviewFragment()
+                1 -> MoviewDetailCastFragment(movieId)
+                2 -> MovieDetailReviewFragment(movieId)
                 else -> MovieDetailOverviewFragment(movieId)
             }
         }

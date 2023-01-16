@@ -2,6 +2,7 @@ package com.example.movielist.data.remote
 
 import com.example.movielist.domain.entity.DiscoverMovie
 import com.example.movielist.domain.entity.GenreList
+import com.example.movielist.domain.entity.MovieCredits
 import com.example.movielist.domain.entity.MovieDetail
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -20,5 +21,11 @@ interface MovieService {
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String
     ): MovieDetail
+
+    @GET("3/movie/{movie_id}/credits")
+    suspend fun getCredits(
+        @Path("movie_id") id: Int,
+        @Query("api_key") apiKey: String
+    ): MovieCredits
 
 }

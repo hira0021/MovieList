@@ -10,30 +10,31 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="rating_placeholder">7.9</string>
-    <string name="star_icon_description">Rating</string>
-    <string tools:ignore="TypographyDashes" name="release_date_placeholder">2022-12-14</string>
-    <string name="genre_placeholder">Action, Adventure, Fantasy, Sci-Fi</string>
-    <string name="title_placeholder">The Chronicle of Narnia : The Lion the Witch and the Wadrobe</string>
     <string name="overview">Overview</string>
     <string name="cast">Cast</string>
     <string name="review">Review</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tittle_placeholder">The Chronicle Of Narnia : The Lion The Witch and The Wadrobe</string>
+    <string name="title_placeholder">The Chronicle of Narnia : The Lion the Witch and the Wadrobe</string>
 
-    <string name="string_release_date">Release Date : %1$s</string>
-    <string name="string_genre">Genre : %1$s</string>
-    <string name="string_rating">%1$s / 10</string>
     <string name="genre">Genre :</string>
+    <string name="string_genre">Genre : %1$s</string>
+    <string name="genre_placeholder">Action, Adventure, Fantasy, Sci-Fi</string>
+
+    <string name="star_icon_description">Rating</string>
+    <string name="rating">Rating :</string>
+    <string name="rating_placeholder">7.9</string>
+    <string name="string_rating">%1$s / 10</string>
+    <string name="rating_detail_placeholder">7.23/10</string>
+
+    <string name="release_date">Release Date :</string>
+    <string name="string_release_date">Release Date : %1$s</string>
+    <string tools:ignore="TypographyDashes" name="release_date_placeholder">2022-12-14</string>
+
     <string name="total_vote">Total Vote :</string>
     <string name="total_vote_placeholder">982</string>
-    <string name="release_date">Release Date :</string>
-    <string name="rating">Rating :</string>
-    <string name="rating_detail_placeholder">7.23/10</string>
+
     <string name="synopsis">Synopsis :</string>
     <string name="synopsis_placeholder">When a team of mercenaries breaks into a wealthy family compound on Christmas Eve, taking everyone inside hostage, the team isn’t prepared for a surprise combatant: Santa Claus is on the grounds, and he’s about to show why this Nick is no saint.</string>
+
     <string name="production_companies">Production Companies :</string>
 </resources>

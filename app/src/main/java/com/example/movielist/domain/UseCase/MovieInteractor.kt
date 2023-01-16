@@ -2,6 +2,7 @@ package com.example.movielist.domain.UseCase
 
 import com.example.movielist.domain.entity.DiscoverMovie
 import com.example.movielist.domain.entity.GenreList
+import com.example.movielist.domain.entity.MovieCredits
 import com.example.movielist.domain.entity.MovieDetail
 import com.example.movielist.domain.repository.IMovieRepository
 import com.example.movielist.util.DataState
@@ -17,5 +18,8 @@ class MovieInteractor @Inject constructor(val repository: IMovieRepository) : Mo
 
     override suspend fun getMovieDetail(movieId: Int): Flow<DataState<MovieDetail>> =
         repository.getMovieDetail(movieId)
+
+    override suspend fun getCredits(movieId: Int): Flow<DataState<MovieCredits>> =
+        repository.getCredits(movieId)
 
 }

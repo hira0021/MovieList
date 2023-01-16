@@ -1,4 +1,4 @@
-package com.example.movielist.presentation.moviedetail
+package com.example.movielist.presentation.moviedetail.overview
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movielist.R
 import com.example.movielist.databinding.FragmentMovieDetailOverviewBinding
 import com.example.movielist.domain.entity.MovieDetail
+import com.example.movielist.presentation.moviedetail.MovieDetailViewModel
 import com.example.movielist.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt

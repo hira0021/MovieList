@@ -1,4 +1,4 @@
-package com.example.movielist.presentation.moviedetail
+package com.example.movielist.presentation.moviedetail.review
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.movielist.R
 
-class MoviewDetailCastFragment : Fragment() {
+class MovieDetailReviewFragment(val movieId: Int) : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -17,7 +18,7 @@ class MoviewDetailCastFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_moview_detail_cast, container, false)
+        return inflater.inflate(R.layout.fragment_movie_detail_review, container, false)
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.movielist.data.repository
 import com.example.movielist.data.datasource.IMovieDataSource
 import com.example.movielist.domain.entity.DiscoverMovie
 import com.example.movielist.domain.entity.GenreList
+import com.example.movielist.domain.entity.MovieCredits
 import com.example.movielist.domain.entity.MovieDetail
 import com.example.movielist.domain.repository.IMovieRepository
 import com.example.movielist.util.DataState
@@ -20,7 +21,11 @@ class MovieRepository @Inject constructor(val movieDataSource: IMovieDataSource)
     }
 
     override suspend fun getMovieDetail(movieId: Int): Flow<DataState<MovieDetail>> {
-        return movieDataSource.getMovieDetail(movieId)
+        return movieDataSource.getMovieDetailFromDataSource(movieId)
+    }
+
+    override suspend fun getCredits(movieId: Int): Flow<DataState<MovieCredits>> {
+        return movieDataSource.getCreditsFromDataSource(movieId)
     }
 
 }
