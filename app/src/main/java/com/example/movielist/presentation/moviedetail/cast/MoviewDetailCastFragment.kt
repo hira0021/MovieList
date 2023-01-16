@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movielist.databinding.FragmentMovieDetailCastBinding
 import com.example.movielist.domain.entity.MovieCredits
@@ -21,7 +20,7 @@ class MoviewDetailCastFragment(val movieId: Int) : Fragment() {
 
     private val movieDetailViewModel: MovieDetailViewModel by viewModels()
 
-    private lateinit var  movieCastAdapter: MovieCastAdapter
+    private lateinit var  movieDetailCastAdapter: MovieDetailCastAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,8 +60,8 @@ class MoviewDetailCastFragment(val movieId: Int) : Fragment() {
     }
 
     private fun setupRecyclerView() = binding.rvCredits.apply {
-        movieCastAdapter = MovieCastAdapter()
-        adapter = movieCastAdapter
+        movieDetailCastAdapter = MovieDetailCastAdapter()
+        adapter = movieDetailCastAdapter
         layoutManager = LinearLayoutManager(activity)
     }
 
@@ -75,7 +74,7 @@ class MoviewDetailCastFragment(val movieId: Int) : Fragment() {
     }
 
     private fun processSuccess(data: MovieCredits) {
-        movieCastAdapter.movieCastList = data.cast
+        movieDetailCastAdapter.movieCastList = data.cast
     }
 
     private fun processFailure(exception: Exception) {

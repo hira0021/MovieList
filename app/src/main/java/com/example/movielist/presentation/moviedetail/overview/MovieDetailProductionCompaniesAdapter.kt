@@ -9,7 +9,7 @@ import com.example.movielist.databinding.ItemProductionCompaniesBinding
 import com.example.movielist.domain.entity.MovieProductionCompany
 import com.example.movielist.util.Const
 
-class MovieProductionCompaniesAdapter : RecyclerView.Adapter<MovieProductionCompaniesAdapter.MovieProductionCompaniesViewHolder>() {
+class MovieDetailProductionCompaniesAdapter : RecyclerView.Adapter<MovieDetailProductionCompaniesAdapter.MovieProductionCompaniesViewHolder>() {
 
     inner class MovieProductionCompaniesViewHolder(val binding: ItemProductionCompaniesBinding) :
         RecyclerView.ViewHolder(binding.root) {

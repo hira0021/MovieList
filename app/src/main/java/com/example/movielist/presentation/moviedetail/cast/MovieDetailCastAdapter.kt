@@ -12,7 +12,7 @@ import com.example.movielist.databinding.ItemCastBinding
 import com.example.movielist.domain.entity.Cast
 import com.example.movielist.util.Const
 
-class MovieCastAdapter : RecyclerView.Adapter<MovieCastAdapter.MovieCastViewHolder>() {
+class MovieDetailCastAdapter : RecyclerView.Adapter<MovieDetailCastAdapter.MovieCastViewHolder>() {
 
     inner class MovieCastViewHolder(val binding: ItemCastBinding) :
         RecyclerView.ViewHolder(binding.root) {

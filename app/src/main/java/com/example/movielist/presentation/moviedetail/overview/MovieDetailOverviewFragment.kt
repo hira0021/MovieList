@@ -24,7 +24,7 @@ class MovieDetailOverviewFragment(val movieId: Int) : Fragment() {
 
     private var genreListName: MutableList<String> = ArrayList()
 
-    private lateinit var movieProductionCompaniesAdapter: MovieProductionCompaniesAdapter
+    private lateinit var movieDetailProductionCompaniesAdapter: MovieDetailProductionCompaniesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,8 +60,8 @@ class MovieDetailOverviewFragment(val movieId: Int) : Fragment() {
     }
 
     fun setupRecyclerView() = binding.rvProductionCompanies.apply {
-        movieProductionCompaniesAdapter = MovieProductionCompaniesAdapter()
-        adapter = movieProductionCompaniesAdapter
+        movieDetailProductionCompaniesAdapter = MovieDetailProductionCompaniesAdapter()
+        adapter = movieDetailProductionCompaniesAdapter
         //layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         val myGridLayoutManager = object : GridLayoutManager(activity, 3) {
             override fun canScrollVertically(): Boolean {
@@ -87,7 +87,7 @@ class MovieDetailOverviewFragment(val movieId: Int) : Fragment() {
     private fun processSuccess(data: MovieDetail) {
         binding.layoutInformation.visibility = View.VISIBLE
 
-        movieProductionCompaniesAdapter.productionCompanies = data.production_companies
+        movieDetailProductionCompaniesAdapter.productionCompanies = data.production_companies
 
         binding.apply {
             for (item in data.genres) {
