@@ -1,8 +1,15 @@
 package com.example.movielist.domain.entity
 
+
+import com.google.gson.annotations.SerializedName
+
 data class MovieBelongsToCollection(
-    val backdrop_path: String = "",
+    @SerializedName("backdrop_path")
+    val backdropPath: String = "",
+    @SerializedName("id")
     val id: Int = 0,
+    @SerializedName("name")
     val name: String = "",
-    val poster_path: String = ""
+    @SerializedName("poster_path")
+    val posterPath: String = ""
 )

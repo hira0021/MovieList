@@ -12,7 +12,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.example.movielist.databinding.ActivityMovieDetailBinding
 import com.example.movielist.domain.entity.MovieDetail
-import com.example.movielist.presentation.moviedetail.cast.MoviewDetailCastFragment
+import com.example.movielist.presentation.moviedetail.cast.MovieDetailCastFragment
 import com.example.movielist.presentation.moviedetail.overview.MovieDetailOverviewFragment
 import com.example.movielist.presentation.moviedetail.review.MovieDetailReviewFragment
 import com.example.movielist.util.Const
@@ -106,11 +106,11 @@ class MovieDetailActivity : AppCompatActivity() {
         circularProgressDrawable.start()
 
         Glide.with(this)
-            .load(Const.IMAGE_BASE_URL + movieDetail.backdrop_path)
+            .load(Const.IMAGE_BASE_URL + movieDetail.backdropPath)
             .placeholder(circularProgressDrawable)
             .into(binding.ivBackdrop)
         Glide.with(this)
-            .load(Const.IMAGE_BASE_URL + movieDetail.poster_path)
+            .load(Const.IMAGE_BASE_URL + movieDetail.posterPath)
             .placeholder(circularProgressDrawable)
             .into(binding.ivPoster)
 
@@ -128,7 +128,7 @@ class MovieDetailActivity : AppCompatActivity() {
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> MovieDetailOverviewFragment(movieId)
-                1 -> MoviewDetailCastFragment(movieId)
+                1 -> MovieDetailCastFragment(movieId)
                 2 -> MovieDetailReviewFragment(movieId)
                 else -> MovieDetailOverviewFragment(movieId)
             }

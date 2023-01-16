@@ -14,7 +14,7 @@ import com.example.movielist.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MoviewDetailCastFragment(val movieId: Int) : Fragment() {
+class MovieDetailCastFragment(val movieId: Int) : Fragment() {
 
     private lateinit var binding: FragmentMovieDetailCastBinding
 
@@ -74,7 +74,7 @@ class MoviewDetailCastFragment(val movieId: Int) : Fragment() {
     }
 
     private fun processSuccess(data: MovieCredits) {
-        movieDetailCastAdapter.movieCastList = data.cast
+        movieDetailCastAdapter.movieMovieCastList = data.movieCast
     }
 
     private fun processFailure(exception: Exception) {

@@ -5,10 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movielist.domain.entity.DiscoverMovie
+import com.example.movielist.domain.entity.MovieDiscoverResponse
 import com.example.movielist.domain.UseCase.MovieUseCase
-import com.example.movielist.domain.entity.Genre
-import com.example.movielist.domain.entity.GenreList
+import com.example.movielist.domain.entity.MovieGenreList
 import com.example.movielist.util.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,11 +19,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : ViewModel() {
 
-    private val _discoverMovieData: MutableLiveData<DataState<DiscoverMovie>> = MutableLiveData()
-    val discoverMovieData: LiveData<DataState<DiscoverMovie>> = _discoverMovieData
+    private val _MovieDiscoverResponseData: MutableLiveData<DataState<MovieDiscoverResponse>> = MutableLiveData()
+    val movieDiscoverResponseData: LiveData<DataState<MovieDiscoverResponse>> = _MovieDiscoverResponseData
 
-    private val _genreList: MutableLiveData<GenreList> = MutableLiveData()
-    val genreList: LiveData<GenreList> = _genreList
+    private val _Movie_genreList: MutableLiveData<MovieGenreList> = MutableLiveData()
+    val movieGenreList: LiveData<MovieGenreList> = _Movie_genreList
 
     fun getDiscoverMovie() = viewModelScope.launch {
         movieInteractor.getDiscoverMovie()
@@ -33,7 +32,7 @@ class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : Vie
                 Log.e("HomeViewModel", e.toString())
             }
             .collect {
-                _discoverMovieData.value = it
+                _MovieDiscoverResponseData.value = it
             }
     }
 
@@ -44,7 +43,7 @@ class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : Vie
                 Log.e("HomeViewModel", e.toString())
             }
             .collect {
-                _genreList.value = it
+                _Movie_genreList.value = it
             }
     }
 

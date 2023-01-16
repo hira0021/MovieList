@@ -2,8 +2,8 @@ package com.example.movielist.data.datasource
 
 import android.util.Log
 import com.example.movielist.data.remote.MovieService
-import com.example.movielist.domain.entity.DiscoverMovie
-import com.example.movielist.domain.entity.GenreList
+import com.example.movielist.domain.entity.MovieDiscoverResponse
+import com.example.movielist.domain.entity.MovieGenreList
 import com.example.movielist.domain.entity.MovieCredits
 import com.example.movielist.util.Const
 import com.example.movielist.util.DataState
@@ -15,7 +15,7 @@ class MovieDataSource @Inject constructor(
     val movieRetrofit: MovieService
 ) : IMovieDataSource {
 
-    override suspend fun getDiscoverMovieFromDataSource(): Flow<DataState<DiscoverMovie>> = flow {
+    override suspend fun getDiscoverMovieFromDataSource(): Flow<DataState<MovieDiscoverResponse>> = flow {
         emit(DataState.Loading)
         try {
             val data = movieRetrofit.getDiscoverMovie(Const.API_KEY)
@@ -25,7 +25,7 @@ class MovieDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getGenreListFromDataSource(): Flow<GenreList> = flow {
+    override suspend fun getGenreListFromDataSource(): Flow<MovieGenreList> = flow {
         try {
             val data = movieRetrofit.getGenreList(Const.API_KEY)
             emit(data)

@@ -1,8 +1,8 @@
 package com.example.movielist.data.repository
 
 import com.example.movielist.data.datasource.IMovieDataSource
-import com.example.movielist.domain.entity.DiscoverMovie
-import com.example.movielist.domain.entity.GenreList
+import com.example.movielist.domain.entity.MovieDiscoverResponse
+import com.example.movielist.domain.entity.MovieGenreList
 import com.example.movielist.domain.entity.MovieCredits
 import com.example.movielist.domain.entity.MovieDetail
 import com.example.movielist.domain.repository.IMovieRepository
@@ -12,11 +12,11 @@ import javax.inject.Inject
 
 class MovieRepository @Inject constructor(val movieDataSource: IMovieDataSource): IMovieRepository {
 
-    override suspend fun getDiscoverMovie(): Flow<DataState<DiscoverMovie>> {
+    override suspend fun getDiscoverMovie(): Flow<DataState<MovieDiscoverResponse>> {
         return movieDataSource.getDiscoverMovieFromDataSource()
     }
 
-    override suspend fun getGenreList(): Flow<GenreList> {
+    override suspend fun getGenreList(): Flow<MovieGenreList> {
         return movieDataSource.getGenreListFromDataSource()
     }
 

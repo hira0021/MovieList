@@ -17,7 +17,7 @@ class MovieDetailProductionCompaniesAdapter : RecyclerView.Adapter<MovieDetailPr
                 binding.apply {
                     textView.text = movieProductionCompany.name
                     Glide.with(ivProductionCompanies.context)
-                        .load(Const.IMAGE_BASE_URL + movieProductionCompany.logo_path)
+                        .load(Const.IMAGE_BASE_URL + movieProductionCompany.logoPath)
                         .error(R.drawable.ic_baseline_image_24)
                         .into(ivProductionCompanies)
                 }

@@ -87,17 +87,17 @@ class MovieDetailOverviewFragment(val movieId: Int) : Fragment() {
     private fun processSuccess(data: MovieDetail) {
         binding.layoutInformation.visibility = View.VISIBLE
 
-        movieDetailProductionCompaniesAdapter.productionCompanies = data.production_companies
+        movieDetailProductionCompaniesAdapter.productionCompanies = data.productionCompanies
 
         binding.apply {
-            for (item in data.genres) {
+            for (item in data.movieGenres) {
                 genreListName.add(item.name)
             }
             tvMovieGenre.text = genreListName.joinToString()
-            val rating = (data.vote_average * 100.0).roundToInt() / 100.0
+            val rating = (data.voteAverage * 100.0).roundToInt() / 100.0
             tvMovieRating.text = getString(R.string.string_rating, rating.toString())
-            tvMovieTotalVote.text = data.vote_count.toString()
-            tvMovieReleaseDate.text = data.release_date
+            tvMovieTotalVote.text = data.voteCount.toString()
+            tvMovieReleaseDate.text = data.releaseDate
             tvMovieSynopsis.text = data.overview
         }
     }

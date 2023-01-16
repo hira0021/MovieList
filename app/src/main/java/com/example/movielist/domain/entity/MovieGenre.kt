@@ -3,9 +3,9 @@ package com.example.movielist.domain.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieProductionCountry(
-    @SerializedName("iso_3166_1")
-    val iso31661: String = "",
+data class MovieGenre(
+    @SerializedName("id")
+    val id: Int = 0,
     @SerializedName("name")
     val name: String = ""
 )
