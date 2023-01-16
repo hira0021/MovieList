@@ -1,7 +1,6 @@
 package com.example.movielist.presentation.home
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -11,52 +10,51 @@ import com.bumptech.glide.Glide
 import com.example.movielist.R
 import com.example.movielist.databinding.ItemMovieBinding
 import com.example.movielist.domain.entity.MovieGenre
-import com.example.movielist.domain.entity.MovieInfo
+import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.util.Const
 
 class HomeMovieAdapter(
-    private val clickListener: (MovieInfo) -> Unit,
+    private val clickListener: (MovieDiscoverResult) -> Unit,
 ) : RecyclerView.Adapter<HomeMovieAdapter.HomeMovieViewHolder>() {
 
 
     inner class HomeMovieViewHolder(val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(context: Context, movieInfo: MovieInfo, clickListener: (MovieInfo) -> Unit) {
-            Log.d("MYTAG", movieInfo.toString())
+        fun bind(context: Context, movieDiscoverResult: MovieDiscoverResult, clickListener: (MovieDiscoverResult) -> Unit) {
             binding.apply {
-                tvMovieTitle.text = movieInfo.title
-                val genreName = setGenreIdToName(movieInfo)
+                tvMovieTitle.text = movieDiscoverResult.title
+                val genreName = setGenreIdToName(movieDiscoverResult)
                 tvMovieGenre.text = context.getString(
                     R.string.string_genre, genreName.toString()
                         .replace('[', ' ')
                         .replace(']', ' ')
                 )
                 tvMovieReleaseDate.text =
-                    context.getString(R.string.string_release_date, movieInfo.releaseDate)
+                    context.getString(R.string.string_release_date, movieDiscoverResult.releaseDate)
                 Glide.with(movieImageView.context)
-                    .load(Const.IMAGE_BASE_URL + movieInfo.posterPath)
+                    .load(Const.IMAGE_BASE_URL + movieDiscoverResult.posterPath)
                     .into(movieImageView)
-                tvRating.text = movieInfo.voteAverage.toString()
+                tvRating.text = movieDiscoverResult.voteAverage.toString()
 
                 binding.cardMovie.setOnClickListener {
-                    clickListener(movieInfo)
+                    clickListener(movieDiscoverResult)
                 }
             }
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<MovieInfo>() {
-        override fun areItemsTheSame(oldItem: MovieInfo, newItem: MovieInfo): Boolean {
+    private val diffCallback = object : DiffUtil.ItemCallback<MovieDiscoverResult>() {
+        override fun areItemsTheSame(oldItem: MovieDiscoverResult, newItem: MovieDiscoverResult): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: MovieInfo, newItem: MovieInfo): Boolean {
+        override fun areContentsTheSame(oldItem: MovieDiscoverResult, newItem: MovieDiscoverResult): Boolean {
             return oldItem == newItem
         }
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
-    var movieInfos: List<MovieInfo>
+    var movieDiscoverResults: List<MovieDiscoverResult>
         get() = differ.currentList
         set(value) {
             differ.submitList(value)
@@ -77,14 +75,14 @@ class HomeMovieAdapter(
         //get context and send it to bind method
         val context = holder.itemView.context
 
-        holder.bind(context, movieInfos[position], clickListener)
+        holder.bind(context, movieDiscoverResults[position], clickListener)
     }
 
-    fun setGenreIdToName(movieInfo: MovieInfo): List<String> {
+    fun setGenreIdToName(movieDiscoverResult: MovieDiscoverResult): List<String> {
         var filteredGenre: List<String> = listOf()
         for (i in movieGenreList.indices) {
-            for (j in movieInfo.genreIds.indices) {
-                if (movieGenreList[i].id == movieInfo.genreIds[j]) {
+            for (j in movieDiscoverResult.genreIds.indices) {
+                if (movieGenreList[i].id == movieDiscoverResult.genreIds[j]) {
                     val genre = movieGenreList[i]
                     filteredGenre = filteredGenre + genre.name
                 }
@@ -93,6 +91,6 @@ class HomeMovieAdapter(
         return filteredGenre
     }
 
-    override fun getItemCount() = movieInfos.size
+    override fun getItemCount() = movieDiscoverResults.size
 
 }

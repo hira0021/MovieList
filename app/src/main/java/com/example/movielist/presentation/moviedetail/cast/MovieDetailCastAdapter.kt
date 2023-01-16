@@ -1,6 +1,5 @@
 package com.example.movielist.presentation.moviedetail.cast
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -17,7 +16,6 @@ class MovieDetailCastAdapter : RecyclerView.Adapter<MovieDetailCastAdapter.Movie
     inner class MovieCastViewHolder(val binding: ItemCastBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movieCast: MovieCast) {
-            Log.d("MYTAG", movieCast.name)
             binding.apply {
                 Glide.with(ivCast.context)
                     .load(Const.IMAGE_BASE_URL + movieCast.profilePath)
@@ -62,9 +60,5 @@ class MovieDetailCastAdapter : RecyclerView.Adapter<MovieDetailCastAdapter.Movie
     }
 
     override fun getItemCount() = movieMovieCastList.size
-
-    init {
-        Log.d("MYTAG", movieMovieCastList.toString())
-    }
 
 }

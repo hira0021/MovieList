@@ -10,9 +10,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="overview">Overview</string>
-    <string name="cast">Cast</string>
-    <string name="review">Review</string>
+    <string name="review">Review (%1$d)</string>
 
     <string name="title_placeholder">The Chronicle of Narnia : The Lion the Witch and the Wadrobe</string>
 
@@ -37,4 +35,6 @@
     <string name="synopsis_placeholder">When a team of mercenaries breaks into a wealthy family compound on Christmas Eve, taking everyone inside hostage, the team isn’t prepared for a surprise combatant: Santa Claus is on the grounds, and he’s about to show why this Nick is no saint.</string>
 
     <string name="production_companies">Production Companies :</string>
+
+    <string name="review_dates">%1$s %2$s</string>
 </resources>

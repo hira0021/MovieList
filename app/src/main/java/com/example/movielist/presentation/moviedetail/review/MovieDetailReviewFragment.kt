@@ -1,24 +1,81 @@
 package com.example.movielist.presentation.moviedetail.review
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.movielist.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movielist.databinding.FragmentMovieDetailReviewBinding
+import com.example.movielist.domain.entity.MovieReview
+import com.example.movielist.presentation.moviedetail.MovieDetailViewModel
+import com.example.movielist.util.DataState
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieDetailReviewFragment(val movieId: Int) : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentMovieDetailReviewBinding
+
+    private val movieDetailViewModel: MovieDetailViewModel by viewModels()
+
+    private lateinit var movieDetailReviewAdapter: MovieDetailReviewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_detail_review, container, false)
+        binding = FragmentMovieDetailReviewBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        movieDetailViewModel.getMovieReviews(movieId)
+        movieDetailViewModel.movieReviews.observe(viewLifecycleOwner) {
+            when (it) {
+                is DataState.Loading -> {
+                    showLoading()
+                }
+                is DataState.Success -> {
+                    processSuccess(it.data)
+                    stopLoading()
+                }
+                is DataState.Error -> {
+                    processFailure(it.exception)
+                    stopLoading()
+                }
+            }
+        }
+
+        setupRecyclerView()
+
+    }
+
+    private fun setupRecyclerView() = binding.rvReview.apply {
+        movieDetailReviewAdapter = MovieDetailReviewAdapter()
+        adapter = movieDetailReviewAdapter
+        layoutManager = LinearLayoutManager(activity)
+    }
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun stopLoading() {
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun processFailure(exception: Exception) {
+
+    }
+
+    private fun processSuccess(data: MovieReview) {
+        movieDetailReviewAdapter.movieReviewResultList = data.movieReviewResults
     }
 
 }

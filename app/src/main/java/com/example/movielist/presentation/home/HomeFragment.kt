@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movielist.databinding.FragmentHomeBinding
-import com.example.movielist.domain.entity.MovieInfo
+import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.presentation.moviedetail.MovieDetailActivity
 import com.example.movielist.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeMovieAdapter: HomeMovieAdapter
 
-    private lateinit var selectedMovieInfo: MovieInfo
+    private lateinit var selectedMovieDiscoverResult: MovieDiscoverResult
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,10 +56,10 @@ class HomeFragment : Fragment() {
 
         // get Discover Movie List
         homeViewModel.getDiscoverMovie()
-        homeViewModel.movieDiscoverResponseData.observe(viewLifecycleOwner) {
+        homeViewModel.movieDiscoverData.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {
-                    discoverMovieProcessSuccess(it.data.movieInfos)
+                    discoverMovieProcessSuccess(it.data.movieDiscoverResults)
                     stopLoading()
                 }
                 is DataState.Error -> {
@@ -79,15 +79,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() = binding.rvHomeMovie.apply {
-        homeMovieAdapter = HomeMovieAdapter { selectedItem: MovieInfo -> listMovieClicked(selectedItem) }
+        homeMovieAdapter = HomeMovieAdapter { selectedItem: MovieDiscoverResult -> listMovieClicked(selectedItem) }
         adapter = homeMovieAdapter
         layoutManager = LinearLayoutManager(activity)
     }
 
-    private fun listMovieClicked(movieInfo: MovieInfo) {
-        selectedMovieInfo = movieInfo
+    private fun listMovieClicked(movieDiscoverResult: MovieDiscoverResult) {
+        selectedMovieDiscoverResult = movieDiscoverResult
         val intent = Intent(activity, MovieDetailActivity::class.java)
-        intent.putExtra("movieId", selectedMovieInfo.id)
+        intent.putExtra("movieId", selectedMovieDiscoverResult.id)
         startActivity(intent)
     }
 
@@ -99,9 +99,9 @@ class HomeFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
     }
 
-    private fun discoverMovieProcessSuccess(data: List<MovieInfo>) {
+    private fun discoverMovieProcessSuccess(data: List<MovieDiscoverResult>) {
         binding.textHome.text = ""
-        homeMovieAdapter.movieInfos = data
+        homeMovieAdapter.movieDiscoverResults = data
     }
 
     private fun discoverMovieProcessFailure(e: Exception) {

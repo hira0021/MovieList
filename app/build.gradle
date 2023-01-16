@@ -15,7 +15,6 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -62,6 +61,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     // Okhttp Logging Interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    // Chucker
+    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
@@ -78,12 +80,11 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
-    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
-    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
-
     // Circle ImageView hdodenhof
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation 'com.github.AhmMhd:SeeMoreTextView-Android:1.0.0'
+    implementation 'kr.co.prnd:readmore-textview:1.0.0'
 }
 
 kapt {

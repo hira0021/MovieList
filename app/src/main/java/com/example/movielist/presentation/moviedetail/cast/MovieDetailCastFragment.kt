@@ -38,7 +38,7 @@ class MovieDetailCastFragment(val movieId: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        movieDetailViewModel.getCredits(movieId)
+        movieDetailViewModel.getMovieCredits(movieId)
         movieDetailViewModel.movieCredits.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Loading -> {
