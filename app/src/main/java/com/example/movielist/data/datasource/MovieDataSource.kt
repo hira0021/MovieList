@@ -14,19 +14,19 @@ import javax.inject.Inject
 
 class MovieDataSource @Inject constructor(
     val movieRetrofit: MovieService
-) : IMovieDataSource {
+) {
 
-    override suspend fun getDiscoverMoviesFromDataSource(): Flow<DataState<MovieDiscover>> = flow {
+    suspend fun getDiscoverMoviesFromDataSource(page: Int): Flow<DataState<MovieDiscover>> = flow {
         emit(DataState.Loading)
         try {
-            val data = movieRetrofit.getDiscoverMovie(Const.API_KEY)
+            val data = movieRetrofit.getDiscoverMovie(page, Const.API_KEY)
             emit(DataState.Success(data))
         } catch (e: Exception) {
             emit(DataState.Error(e))
         }
     }
 
-    override suspend fun getGenreListFromDataSource(): Flow<MovieGenreList> = flow {
+    suspend fun getGenreListFromDataSource(): Flow<MovieGenreList> = flow {
         try {
             val data = movieRetrofit.getGenreList(Const.API_KEY)
             emit(data)
@@ -35,7 +35,7 @@ class MovieDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieDetailFromDataSource(movieId: Int) = flow {
+    suspend fun getMovieDetailFromDataSource(movieId: Int) = flow {
         emit(DataState.Loading)
         try {
             val data = movieRetrofit.getMovieDetail(movieId, Const.API_KEY)
@@ -45,7 +45,7 @@ class MovieDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieCreditsFromDataSource(movieId: Int): Flow<DataState<MovieCredits>> = flow {
+    suspend fun getMovieCreditsFromDataSource(movieId: Int): Flow<DataState<MovieCredits>> = flow {
         emit(DataState.Loading)
         try {
             val data = movieRetrofit.getCredits(movieId, Const.API_KEY)
@@ -55,7 +55,7 @@ class MovieDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getMovieReviewFromDataSource(movieId: Int): Flow<DataState<MovieReview>> = flow {
+    suspend fun getMovieReviewFromDataSource(movieId: Int): Flow<DataState<MovieReview>> = flow {
         emit(DataState.Loading)
         try {
             val data = movieRetrofit.getMovieReview(movieId, Const.API_KEY)

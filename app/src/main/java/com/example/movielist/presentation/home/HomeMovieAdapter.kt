@@ -3,7 +3,7 @@ package com.example.movielist.presentation.home
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,15 +15,15 @@ import com.example.movielist.util.Const
 
 class HomeMovieAdapter(
     private val clickListener: (MovieDiscoverResult) -> Unit,
-) : RecyclerView.Adapter<HomeMovieAdapter.HomeMovieViewHolder>() {
+) : PagingDataAdapter<MovieDiscoverResult, HomeMovieAdapter.HomeMovieViewHolder>(diffCallback) {
 
 
     inner class HomeMovieViewHolder(val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(context: Context, movieDiscoverResult: MovieDiscoverResult, clickListener: (MovieDiscoverResult) -> Unit) {
+        fun bind(context: Context, movieDiscoverResult: MovieDiscoverResult?, clickListener: (MovieDiscoverResult) -> Unit) {
             binding.apply {
-                tvMovieTitle.text = movieDiscoverResult.title
-                val genreName = setGenreIdToName(movieDiscoverResult)
+                tvMovieTitle.text = movieDiscoverResult?.title
+                val genreName = setGenreIdToName(movieDiscoverResult!!)
                 tvMovieGenre.text = context.getString(
                     R.string.string_genre, genreName.toString()
                         .replace('[', ' ')
@@ -43,7 +43,19 @@ class HomeMovieAdapter(
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<MovieDiscoverResult>() {
+    companion object {
+        val diffCallback = object : DiffUtil.ItemCallback<MovieDiscoverResult>() {
+            override fun areItemsTheSame(oldItem: MovieDiscoverResult, newItem: MovieDiscoverResult): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: MovieDiscoverResult, newItem: MovieDiscoverResult): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
+
+    /*private val diffCallback = object : DiffUtil.ItemCallback<MovieDiscoverResult>() {
         override fun areItemsTheSame(oldItem: MovieDiscoverResult, newItem: MovieDiscoverResult): Boolean {
             return oldItem.id == newItem.id
         }
@@ -58,7 +70,7 @@ class HomeMovieAdapter(
         get() = differ.currentList
         set(value) {
             differ.submitList(value)
-        }
+        }*/
     var movieGenreList: List<MovieGenre> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeMovieViewHolder {
@@ -74,8 +86,9 @@ class HomeMovieAdapter(
     override fun onBindViewHolder(holder: HomeMovieViewHolder, position: Int) {
         //get context and send it to bind method
         val context = holder.itemView.context
+        val currentItem = getItem(position)
 
-        holder.bind(context, movieDiscoverResults[position], clickListener)
+        holder.bind(context, currentItem, clickListener)
     }
 
     fun setGenreIdToName(movieDiscoverResult: MovieDiscoverResult): List<String> {
@@ -90,7 +103,5 @@ class HomeMovieAdapter(
         }
         return filteredGenre
     }
-
-    override fun getItemCount() = movieDiscoverResults.size
 
 }

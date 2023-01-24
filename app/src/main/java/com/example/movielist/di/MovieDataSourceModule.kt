@@ -1,7 +1,7 @@
 package com.example.movielist.di
 
-import com.example.movielist.data.datasource.IMovieDataSource
 import com.example.movielist.data.datasource.MovieDataSource
+import com.example.movielist.data.pagingsource.MovieResultPagingSource
 import com.example.movielist.data.remote.MovieService
 import dagger.Module
 import dagger.Provides
@@ -15,8 +15,14 @@ object MovieDataSourceModule {
 
     @Singleton
     @Provides
-    fun provideMovieDataSource(retrofit: MovieService): IMovieDataSource {
+    fun provideMovieDataSource(retrofit: MovieService): MovieDataSource {
         return MovieDataSource(retrofit)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMovieResultPagingSource(retrofit: MovieService): MovieResultPagingSource {
+        return MovieResultPagingSource(retrofit)
     }
 
 }

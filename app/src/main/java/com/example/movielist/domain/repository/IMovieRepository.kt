@@ -1,12 +1,15 @@
 package com.example.movielist.domain.repository
 
+import androidx.paging.PagingData
 import com.example.movielist.domain.entity.*
 import com.example.movielist.util.DataState
 import kotlinx.coroutines.flow.Flow
 
 interface IMovieRepository {
 
-    suspend fun getDiscoverMovies(): Flow<DataState<MovieDiscover>>
+    suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>>
+
+    fun getPagingDiscoverMovies(): Flow<PagingData<MovieDiscoverResult>>
 
     suspend fun getGenreList(): Flow<MovieGenreList>
 

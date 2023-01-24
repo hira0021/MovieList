@@ -1,16 +1,24 @@
 package com.example.movielist.data.repository
 
-import com.example.movielist.data.datasource.IMovieDataSource
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.example.movielist.data.datasource.MovieDataSource
+import com.example.movielist.data.pagingsource.MovieResultPagingSource
 import com.example.movielist.domain.entity.*
 import com.example.movielist.domain.repository.IMovieRepository
 import com.example.movielist.util.DataState
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(val movieDataSource: IMovieDataSource): IMovieRepository {
+class MovieRepository @Inject constructor(
+    val movieDataSource: MovieDataSource,
+    val movieResultPagingSource: MovieResultPagingSource
+) :
+    IMovieRepository {
 
-    override suspend fun getDiscoverMovies(): Flow<DataState<MovieDiscover>> {
-        return movieDataSource.getDiscoverMoviesFromDataSource()
+    override suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>> {
+        return movieDataSource.getDiscoverMoviesFromDataSource(page)
     }
 
     override suspend fun getGenreList(): Flow<MovieGenreList> {
@@ -28,5 +36,17 @@ class MovieRepository @Inject constructor(val movieDataSource: IMovieDataSource)
     override suspend fun getMovieReviews(movieId: Int): Flow<DataState<MovieReview>> {
         return movieDataSource.getMovieReviewFromDataSource(movieId)
     }
+
+    override fun getPagingDiscoverMovies(): Flow<PagingData<MovieDiscoverResult>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { movieResultPagingSource }
+        ).flow
+    }
+
+    /*fun getPagingMovie() = Pager(
+        config = PagingConfig(pageSize = 20, maxSize = 100),
+        pagingSourceFactory = { movieResultPagingSource }
+    ).liveData*/
 
 }

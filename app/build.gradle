@@ -78,10 +78,15 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     // Circle ImageView hdodenhof
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // Paging
+    def paging_version = "3.1.1"
+    implementation "androidx.paging:paging-runtime:$paging_version"
 
     implementation 'com.github.AhmMhd:SeeMoreTextView-Android:1.0.0'
     implementation 'kr.co.prnd:readmore-textview:1.0.0'

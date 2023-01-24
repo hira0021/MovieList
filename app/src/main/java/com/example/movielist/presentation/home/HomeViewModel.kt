@@ -5,12 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movielist.domain.entity.MovieDiscover
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.movielist.domain.UseCase.MovieUseCase
+import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.domain.entity.MovieGenreList
-import com.example.movielist.util.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -19,22 +21,26 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : ViewModel() {
 
-    private val _MovieDiscoverData: MutableLiveData<DataState<MovieDiscover>> = MutableLiveData()
-    val movieDiscoverData: LiveData<DataState<MovieDiscover>> = _MovieDiscoverData
+    /*private val _movieDiscoverData: MutableLiveData<DataState<MovieDiscover>> = MutableLiveData()
+    val movieDiscoverData: LiveData<DataState<MovieDiscover>> = _movieDiscoverData*/
 
-    private val _Movie_genreList: MutableLiveData<MovieGenreList> = MutableLiveData()
-    val movieGenreList: LiveData<MovieGenreList> = _Movie_genreList
+    private val _pagingMovieList = movieInteractor.getPagerDiscoverMovies().cachedIn(viewModelScope)
+    val pagingMovieList: Flow<PagingData<MovieDiscoverResult>> = _pagingMovieList
 
-    fun getDiscoverMovie() = viewModelScope.launch {
-        movieInteractor.getDiscoverMovies()
+    private val _movie_genreList: MutableLiveData<MovieGenreList> = MutableLiveData()
+    val movieGenreList: LiveData<MovieGenreList> = _movie_genreList
+
+    /*fun getDiscoverMovie(page: Int) = viewModelScope.launch {
+        movieInteractor.getDiscoverMovies(page)
             .flowOn(Dispatchers.IO)
             .catch { e ->
                 Log.e("HomeViewModel", e.toString())
             }
             .collect {
-                _MovieDiscoverData.value = it
+                _movieDiscoverData.value = it
             }
-    }
+
+    }*/
 
     fun getGenreListForDiscoverMovie() = viewModelScope.launch {
         movieInteractor.getGenreList()
@@ -43,7 +49,7 @@ class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : Vie
                 Log.e("HomeViewModel", e.toString())
             }
             .collect {
-                _Movie_genreList.value = it
+                _movie_genreList.value = it
             }
     }
 

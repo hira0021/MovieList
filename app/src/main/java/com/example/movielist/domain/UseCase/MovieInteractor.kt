@@ -1,5 +1,6 @@
 package com.example.movielist.domain.UseCase
 
+import androidx.paging.PagingData
 import com.example.movielist.domain.entity.*
 import com.example.movielist.domain.repository.IMovieRepository
 import com.example.movielist.util.DataState
@@ -8,10 +9,14 @@ import javax.inject.Inject
 
 class MovieInteractor @Inject constructor(val repository: IMovieRepository) : MovieUseCase {
 
-    override suspend fun getDiscoverMovies(): Flow<DataState<MovieDiscover>> =
-        repository.getDiscoverMovies()
+    override suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>> =
+        repository.getDiscoverMovies(page)
 
-    override suspend fun getGenreList(): Flow<MovieGenreList> = repository.getGenreList()
+    override fun getPagerDiscoverMovies(): Flow<PagingData<MovieDiscoverResult>> =
+        repository.getPagingDiscoverMovies()
+
+    override suspend fun getGenreList(): Flow<MovieGenreList> =
+        repository.getGenreList()
 
     override suspend fun getMovieDetail(movieId: Int): Flow<DataState<MovieDetail>> =
         repository.getMovieDetail(movieId)

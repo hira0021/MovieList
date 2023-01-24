@@ -1,6 +1,7 @@
 package com.example.movielist.di
 
-import com.example.movielist.data.datasource.IMovieDataSource
+import com.example.movielist.data.datasource.MovieDataSource
+import com.example.movielist.data.pagingsource.MovieResultPagingSource
 import com.example.movielist.data.repository.MovieRepository
 import com.example.movielist.domain.repository.IMovieRepository
 import dagger.Module
@@ -15,8 +16,8 @@ object MovieRepositoryModule {
 
     @Singleton
     @Provides
-    fun provideMovieRepository(dataSource: IMovieDataSource): IMovieRepository {
-        return MovieRepository(dataSource)
+    fun provideMovieRepository(dataSource: MovieDataSource, pagingSource: MovieResultPagingSource): IMovieRepository {
+        return MovieRepository(dataSource, pagingSource)
     }
 
 }

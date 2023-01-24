@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movielist.databinding.FragmentHomeBinding
 import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.presentation.moviedetail.MovieDetailActivity
-import com.example.movielist.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -42,7 +44,6 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
 
@@ -54,12 +55,23 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // get Discover Movie List
-        homeViewModel.getDiscoverMovie()
+        // get Discover Movie List paging data
+       lifecycleScope.launch {
+           homeViewModel.pagingMovieList.collectLatest { pagingData ->
+               homeMovieAdapter.submitData(pagingData)
+           }
+       }
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    /*private fun getMovie() {
+        homeViewModel.getDiscoverMovie(1)
         homeViewModel.movieDiscoverData.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {
-                    discoverMovieProcessSuccess(it.data.movieDiscoverResults)
+                    binding.textHome.text = ""
+                    homeMovieAdapter.movieDiscoverResults = it.data.movieDiscoverResults
                     stopLoading()
                 }
                 is DataState.Error -> {
@@ -71,7 +83,7 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-    }
+    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -79,6 +91,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() = binding.rvHomeMovie.apply {
+        setHasFixedSize(true)
         homeMovieAdapter = HomeMovieAdapter { selectedItem: MovieDiscoverResult -> listMovieClicked(selectedItem) }
         adapter = homeMovieAdapter
         layoutManager = LinearLayoutManager(activity)
@@ -99,12 +112,8 @@ class HomeFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
     }
 
-    private fun discoverMovieProcessSuccess(data: List<MovieDiscoverResult>) {
-        binding.textHome.text = ""
-        homeMovieAdapter.movieDiscoverResults = data
-    }
-
     private fun discoverMovieProcessFailure(e: Exception) {
         binding.textHome.text = e.toString()
     }
+
 }
