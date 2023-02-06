@@ -2,17 +2,21 @@ package com.example.movielist.presentation.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movielist.databinding.FragmentHomeBinding
 import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.presentation.moviedetail.MovieDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -25,7 +29,7 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
 
     private lateinit var homeMovieAdapter: HomeMovieAdapter
 
@@ -43,6 +47,7 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    @ExperimentalPagingApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         setupRecyclerView()
@@ -57,9 +62,17 @@ class HomeFragment : Fragment() {
 
         // get Discover Movie List paging data
        lifecycleScope.launch {
-           homeViewModel.pagingMovieList.collectLatest { pagingData ->
+           /*homeViewModel.currentSearchQuery.collectLatest {
+               Log.d("MYTAG", it)
+           }*/
+           /*homeViewModel._pagingMovieList.collect { pagingData ->
                homeMovieAdapter.submitData(pagingData)
+           }*/
+
+           homeViewModel.pagingMovieList.collectLatest { pagingData ->
+               //homeMovieAdapter.submitData(pagingData)
            }
+
        }
 
         super.onViewCreated(view, savedInstanceState)
@@ -113,7 +126,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun discoverMovieProcessFailure(e: Exception) {
-        binding.textHome.text = e.toString()
+
     }
 
 }

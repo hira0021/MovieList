@@ -13,6 +13,13 @@ interface MovieService {
         @Query("api_key") apiKey: String
     ): MovieDiscover
 
+    @GET("3/search/movie/")
+    suspend fun getSearchMovie(
+        @Query("query") searchQuery: String,
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String
+    ): MovieDiscover
+
     @GET("3/genre/movie/list")
     suspend fun getGenreList(@Query("api_key") apiKey: String): MovieGenreList
 

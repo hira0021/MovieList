@@ -4,7 +4,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    android:theme="@style/AppBarColor"
+    android:theme="@style/AppBarTheme"
     app:titleTextColor="@color/white">
 
 </com.google.android.material.appbar.MaterialToolbar>

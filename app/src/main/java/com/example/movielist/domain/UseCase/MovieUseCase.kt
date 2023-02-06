@@ -1,5 +1,6 @@
 package com.example.movielist.domain.UseCase
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.example.movielist.domain.entity.*
 import com.example.movielist.util.DataState
@@ -9,7 +10,7 @@ interface MovieUseCase {
 
     suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>>
 
-    fun getPagerDiscoverMovies(): Flow<PagingData<MovieDiscoverResult>>
+    fun getPagerDiscoverMovies(query: String): Flow<PagingData<MovieDiscoverResult>>
 
     suspend fun getGenreList(): Flow<MovieGenreList>
 

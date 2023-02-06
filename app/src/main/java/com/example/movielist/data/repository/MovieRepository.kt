@@ -1,8 +1,7 @@
 package com.example.movielist.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.lifecycle.LiveData
+import androidx.paging.*
 import com.example.movielist.data.datasource.MovieDataSource
 import com.example.movielist.data.pagingsource.MovieResultPagingSource
 import com.example.movielist.domain.entity.*
@@ -36,8 +35,9 @@ class MovieRepository @Inject constructor(
     override suspend fun getMovieReviews(movieId: Int): Flow<DataState<MovieReview>> {
         return movieDataSource.getMovieReviewFromDataSource(movieId)
     }
-
-    override fun getPagingDiscoverMovies(): Flow<PagingData<MovieDiscoverResult>> {
+    //: Flow<PagingData<MovieDiscoverResult>>
+    override fun getPagingDiscoverMovies(query: String): Flow<PagingData<MovieDiscoverResult>> {
+        movieResultPagingSource.getSearchQuery(query)
         return Pager(
             config = PagingConfig(pageSize = 20, enablePlaceholders = false),
             pagingSourceFactory = { movieResultPagingSource }
