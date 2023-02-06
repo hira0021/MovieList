@@ -1,14 +1,9 @@
 package com.example.movielist.presentation.home
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.example.movielist.domain.UseCase.MovieUseCase
-import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.domain.entity.MovieGenreList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,10 +14,10 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : ViewModel() {
 
-    val currentSearchQuery = MutableStateFlow("avatar")
+    val currentSearchQuery = MutableLiveData("")
 
-    val pagingMovieList = currentSearchQuery.mapLatest {
-        movieInteractor.getPagerDiscoverMovies(currentSearchQuery.value)
+    val pagingMovieList = currentSearchQuery.switchMap { queryString ->
+        movieInteractor.getPagerDiscoverMovies(queryString).cachedIn(viewModelScope)
     }
 
     /*currentSearchQuery
@@ -52,19 +47,6 @@ class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : Vie
             }
 
     }*/
-    lateinit var pagingData: PagingData<MovieDiscoverResult>
-    fun getSearchMovie(query: String) = viewModelScope.launch {
-        movieInteractor.getPagerDiscoverMovies(query)
-            .flowOn(Dispatchers.IO)
-            .catch { e ->
-                Log.e("HomeViewModel", e.toString())
-            }
-            .mapLatest {
-                pagingData = it
-
-            }
-
-    }
 
     fun getGenreListForDiscoverMovie() = viewModelScope.launch {
         movieInteractor.getGenreList()

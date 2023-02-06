@@ -10,7 +10,7 @@ interface MovieUseCase {
 
     suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>>
 
-    fun getPagerDiscoverMovies(query: String): Flow<PagingData<MovieDiscoverResult>>
+    fun getPagerDiscoverMovies(query: String): LiveData<PagingData<MovieDiscoverResult>>
 
     suspend fun getGenreList(): Flow<MovieGenreList>
 

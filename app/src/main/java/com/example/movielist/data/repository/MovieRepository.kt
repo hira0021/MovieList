@@ -36,12 +36,12 @@ class MovieRepository @Inject constructor(
         return movieDataSource.getMovieReviewFromDataSource(movieId)
     }
     //: Flow<PagingData<MovieDiscoverResult>>
-    override fun getPagingDiscoverMovies(query: String): Flow<PagingData<MovieDiscoverResult>> {
+    override fun getPagingDiscoverMovies(query: String): LiveData<PagingData<MovieDiscoverResult>> {
         movieResultPagingSource.getSearchQuery(query)
         return Pager(
             config = PagingConfig(pageSize = 20, enablePlaceholders = false),
             pagingSourceFactory = { movieResultPagingSource }
-        ).flow
+        ).liveData
     }
 
     /*fun getPagingMovie() = Pager(

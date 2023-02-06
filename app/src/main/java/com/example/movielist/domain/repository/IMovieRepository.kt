@@ -10,7 +10,7 @@ interface IMovieRepository {
 
     suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>>
 
-    fun getPagingDiscoverMovies(query: String): Flow<PagingData<MovieDiscoverResult>>
+    fun getPagingDiscoverMovies(query: String): LiveData<PagingData<MovieDiscoverResult>>
 
     suspend fun getGenreList(): Flow<MovieGenreList>
 

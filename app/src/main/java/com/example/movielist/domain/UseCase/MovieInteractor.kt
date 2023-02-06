@@ -13,7 +13,7 @@ class MovieInteractor @Inject constructor(val repository: IMovieRepository) : Mo
     override suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>> =
         repository.getDiscoverMovies(page)
 
-    override fun getPagerDiscoverMovies(query: String): Flow<PagingData<MovieDiscoverResult>> =
+    override fun getPagerDiscoverMovies(query: String): LiveData<PagingData<MovieDiscoverResult>> =
         repository.getPagingDiscoverMovies(query)
 
     override suspend fun getGenreList(): Flow<MovieGenreList> =

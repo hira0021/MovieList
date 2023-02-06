@@ -2,13 +2,11 @@ package com.example.movielist.presentation.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,8 +14,6 @@ import com.example.movielist.databinding.FragmentHomeBinding
 import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.presentation.moviedetail.MovieDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -69,8 +65,8 @@ class HomeFragment : Fragment() {
                homeMovieAdapter.submitData(pagingData)
            }*/
 
-           homeViewModel.pagingMovieList.collectLatest { pagingData ->
-               //homeMovieAdapter.submitData(pagingData)
+           homeViewModel.pagingMovieList.observe(viewLifecycleOwner) { pagingData ->
+               homeMovieAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
            }
 
        }
