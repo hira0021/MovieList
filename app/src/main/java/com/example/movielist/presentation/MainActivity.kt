@@ -5,25 +5,20 @@ import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.movielist.R
 import com.example.movielist.databinding.ActivityMainBinding
-import com.example.movielist.presentation.home.HomeFragment
 import com.example.movielist.presentation.home.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    var searchQuery = ""
 
     private val homeViewModel: HomeViewModel by viewModels()
 
@@ -66,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                homeViewModel.currentSearchQuery.value = newText ?: ""
+                homeViewModel.updateSearchQuery(newText ?: "")
                 return true
             }
         })

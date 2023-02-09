@@ -3,9 +3,9 @@ package com.example.movielist.data.pagingsource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.movielist.data.remote.MovieService
-import com.example.movielist.domain.entity.MovieDiscover
 import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.util.Const
+import java.io.IOException
 import javax.inject.Inject
 
 class MovieResultPagingSource @Inject constructor(
@@ -41,6 +41,8 @@ class MovieResultPagingSource @Inject constructor(
                 nextKey = if (position == response.totalPages) null else position.plus(1)
             )
         } catch (e: Exception) {
+            LoadResult.Error(e)
+        } catch (e: IOException) {
             LoadResult.Error(e)
         }
     }

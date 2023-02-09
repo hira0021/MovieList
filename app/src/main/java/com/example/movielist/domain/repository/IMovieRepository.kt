@@ -1,6 +1,5 @@
 package com.example.movielist.domain.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import com.example.movielist.domain.entity.*
 import com.example.movielist.util.DataState
@@ -10,7 +9,7 @@ interface IMovieRepository {
 
     suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>>
 
-    fun getPagingDiscoverMovies(query: String): LiveData<PagingData<MovieDiscoverResult>>
+    fun getPagingDiscoverMovies(query: String): Flow<PagingData<MovieDiscoverResult>>
 
     suspend fun getGenreList(): Flow<MovieGenreList>
 

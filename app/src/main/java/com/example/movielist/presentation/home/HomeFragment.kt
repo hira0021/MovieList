@@ -14,6 +14,7 @@ import com.example.movielist.databinding.FragmentHomeBinding
 import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.presentation.moviedetail.MovieDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -58,17 +59,13 @@ class HomeFragment : Fragment() {
 
         // get Discover Movie List paging data
        lifecycleScope.launch {
-           /*homeViewModel.currentSearchQuery.collectLatest {
-               Log.d("MYTAG", it)
-           }*/
-           /*homeViewModel._pagingMovieList.collect { pagingData ->
-               homeMovieAdapter.submitData(pagingData)
-           }*/
-
-           homeViewModel.pagingMovieList.observe(viewLifecycleOwner) { pagingData ->
+           /*homeViewModel.pagingMovieList.observe(viewLifecycleOwner) { pagingData ->
                homeMovieAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
-           }
+           }*/
 
+           homeViewModel.pagingMovieList.collectLatest { pagingData ->
+               homeMovieAdapter.submitData(pagingData)
+           }
        }
 
         super.onViewCreated(view, savedInstanceState)
@@ -102,7 +99,11 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() = binding.rvHomeMovie.apply {
         setHasFixedSize(true)
         homeMovieAdapter = HomeMovieAdapter { selectedItem: MovieDiscoverResult -> listMovieClicked(selectedItem) }
-        adapter = homeMovieAdapter
+        adapter = homeMovieAdapter.withLoadStateHeaderAndFooter(
+            header = HomeLoaderAdapter(),
+            footer = HomeLoaderAdapter()
+
+        )
         layoutManager = LinearLayoutManager(activity)
     }
 
@@ -111,18 +112,6 @@ class HomeFragment : Fragment() {
         val intent = Intent(activity, MovieDetailActivity::class.java)
         intent.putExtra("movieId", selectedMovieDiscoverResult.id)
         startActivity(intent)
-    }
-
-    private fun showLoading() {
-        binding.progressBar.visibility = View.VISIBLE
-    }
-
-    private fun stopLoading() {
-        binding.progressBar.visibility = View.GONE
-    }
-
-    private fun discoverMovieProcessFailure(e: Exception) {
-
     }
 
 }

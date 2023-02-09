@@ -1,6 +1,5 @@
 package com.example.movielist.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.*
 import com.example.movielist.data.datasource.MovieDataSource
 import com.example.movielist.data.pagingsource.MovieResultPagingSource
@@ -36,12 +35,12 @@ class MovieRepository @Inject constructor(
         return movieDataSource.getMovieReviewFromDataSource(movieId)
     }
     //: Flow<PagingData<MovieDiscoverResult>>
-    override fun getPagingDiscoverMovies(query: String): LiveData<PagingData<MovieDiscoverResult>> {
+    override fun getPagingDiscoverMovies(query: String): Flow<PagingData<MovieDiscoverResult>> {
         movieResultPagingSource.getSearchQuery(query)
         return Pager(
             config = PagingConfig(pageSize = 20, enablePlaceholders = false),
             pagingSourceFactory = { movieResultPagingSource }
-        ).liveData
+        ).flow
     }
 
     /*fun getPagingMovie() = Pager(
