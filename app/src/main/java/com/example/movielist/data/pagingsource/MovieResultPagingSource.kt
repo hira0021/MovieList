@@ -38,7 +38,7 @@ class MovieResultPagingSource @Inject constructor(
             LoadResult.Page(
                 data = repos,
                 prevKey = if (position == 1) null else -1,
-                nextKey = if (position == response.totalPages) null else position.plus(1)
+                nextKey = if (position == response.totalPages || response.totalPages == 0) null else position.plus(1)
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

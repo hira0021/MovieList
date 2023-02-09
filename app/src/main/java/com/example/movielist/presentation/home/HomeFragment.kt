@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movielist.databinding.FragmentHomeBinding
 import com.example.movielist.domain.entity.MovieDiscoverResult
@@ -44,7 +45,6 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    @ExperimentalPagingApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         setupRecyclerView()
@@ -58,10 +58,7 @@ class HomeFragment : Fragment() {
         }
 
         // get Discover Movie List paging data
-       lifecycleScope.launch {
-           /*homeViewModel.pagingMovieList.observe(viewLifecycleOwner) { pagingData ->
-               homeMovieAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
-           }*/
+       viewLifecycleOwner.lifecycleScope.launch {
 
            homeViewModel.pagingMovieList.collectLatest { pagingData ->
                homeMovieAdapter.submitData(pagingData)
@@ -96,15 +93,19 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupRecyclerView() = binding.rvHomeMovie.apply {
-        setHasFixedSize(true)
+    private fun setupRecyclerView() {
+        binding.rvHomeMovie.setHasFixedSize(true)
         homeMovieAdapter = HomeMovieAdapter { selectedItem: MovieDiscoverResult -> listMovieClicked(selectedItem) }
-        adapter = homeMovieAdapter.withLoadStateHeaderAndFooter(
+        binding.rvHomeMovie.adapter = homeMovieAdapter.withLoadStateHeaderAndFooter(
             header = HomeLoaderAdapter(),
             footer = HomeLoaderAdapter()
-
         )
-        layoutManager = LinearLayoutManager(activity)
+        homeMovieAdapter.addLoadStateListener { loadState ->
+            binding.rvHomeMovie.isVisible = loadState.refresh is LoadState.NotLoading
+            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+
+        }
+        binding.rvHomeMovie.layoutManager = LinearLayoutManager(activity)
     }
 
     private fun listMovieClicked(movieDiscoverResult: MovieDiscoverResult) {
