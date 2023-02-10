@@ -96,6 +96,7 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         binding.rvHomeMovie.setHasFixedSize(true)
         homeMovieAdapter = HomeMovieAdapter { selectedItem: MovieDiscoverResult -> listMovieClicked(selectedItem) }
+        binding.rvHomeMovie.layoutManager = LinearLayoutManager(activity)
         binding.rvHomeMovie.adapter = homeMovieAdapter.withLoadStateHeaderAndFooter(
             header = HomeLoaderAdapter(),
             footer = HomeLoaderAdapter()
@@ -103,9 +104,13 @@ class HomeFragment : Fragment() {
         homeMovieAdapter.addLoadStateListener { loadState ->
             binding.rvHomeMovie.isVisible = loadState.refresh is LoadState.NotLoading
             binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-
+            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
+            binding.tvConnectionError.isVisible = loadState.source.refresh is LoadState.Error
+            binding.tvNoResult.isVisible = loadState.refresh is LoadState.NotLoading && homeMovieAdapter.itemCount == 0
         }
-        binding.rvHomeMovie.layoutManager = LinearLayoutManager(activity)
+        binding.retryButton.setOnClickListener {
+            homeMovieAdapter.retry()
+        }
     }
 
     private fun listMovieClicked(movieDiscoverResult: MovieDiscoverResult) {

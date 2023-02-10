@@ -37,4 +37,7 @@
     <string name="production_companies">Production Companies :</string>
 
     <string name="review_dates">%1$s %2$s</string>
+    <string name="retry">Retry</string>
+    <string name="no_connection">No connection</string>
+    <string name="no_result_found">No result found</string>
 </resources>

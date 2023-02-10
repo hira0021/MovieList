@@ -29,7 +29,7 @@ class MovieDetailOverviewFragment(val movieId: Int) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMovieDetailOverviewBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
         return binding.root
@@ -80,8 +80,8 @@ class MovieDetailOverviewFragment(val movieId: Int) : Fragment() {
     }
 
     private fun processFailure(exception: java.lang.Exception) {
-        binding.tvError.visibility = View.VISIBLE
-        binding.tvError.text = exception.toString()
+        /*binding.tvError.visibility = View.VISIBLE
+        binding.tvError.text = exception.toString()*/
     }
 
     private fun processSuccess(data: MovieDetail) {
