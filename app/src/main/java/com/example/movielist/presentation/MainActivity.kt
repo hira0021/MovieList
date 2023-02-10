@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
 
+        /*binding.navView.setOnItemSelectedListener {
+
+        }*/
     }
 
     override fun onStart() {

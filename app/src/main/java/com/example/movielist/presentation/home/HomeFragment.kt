@@ -38,11 +38,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,12 +55,11 @@ class HomeFragment : Fragment() {
         }
 
         // get Discover Movie List paging data
-       viewLifecycleOwner.lifecycleScope.launch {
-
-           homeViewModel.pagingMovieList.collectLatest { pagingData ->
-               homeMovieAdapter.submitData(pagingData)
-           }
-       }
+        viewLifecycleOwner.lifecycleScope.launch {
+            homeViewModel.pagingMovieList.collectLatest { pagingData ->
+                homeMovieAdapter.submitData(pagingData)
+            }
+        }
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -95,18 +91,20 @@ class HomeFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.rvHomeMovie.setHasFixedSize(true)
-        homeMovieAdapter = HomeMovieAdapter { selectedItem: MovieDiscoverResult -> listMovieClicked(selectedItem) }
+        homeMovieAdapter =
+            HomeMovieAdapter { selectedItem: MovieDiscoverResult -> listMovieClicked(selectedItem) }
         binding.rvHomeMovie.layoutManager = LinearLayoutManager(activity)
         binding.rvHomeMovie.adapter = homeMovieAdapter.withLoadStateHeaderAndFooter(
-            header = HomeLoaderAdapter(),
-            footer = HomeLoaderAdapter()
+            header = HomeLoaderAdapter { homeMovieAdapter.retry() },
+            footer = HomeLoaderAdapter { homeMovieAdapter.retry() }
         )
         homeMovieAdapter.addLoadStateListener { loadState ->
             binding.rvHomeMovie.isVisible = loadState.refresh is LoadState.NotLoading
             binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
             binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
             binding.tvConnectionError.isVisible = loadState.source.refresh is LoadState.Error
-            binding.tvNoResult.isVisible = loadState.refresh is LoadState.NotLoading && homeMovieAdapter.itemCount == 0
+            binding.tvNoResult.isVisible =
+                loadState.refresh is LoadState.NotLoading && homeMovieAdapter.itemCount == 0
         }
         binding.retryButton.setOnClickListener {
             homeMovieAdapter.retry()

@@ -40,4 +40,5 @@
     <string name="retry">Retry</string>
     <string name="no_connection">No connection</string>
     <string name="no_result_found">No result found</string>
+    <string name="error_occured">Error occurred</string>
 </resources>

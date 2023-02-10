@@ -19,7 +19,7 @@ class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : Vie
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val pagingMovieList: Flow<PagingData<MovieDiscoverResult>> = searchQuery
-        .debounce(400)
+        .debounce(800)
         .distinctUntilChanged()
         .flatMapLatest { query ->
             movieInteractor.getPagerDiscoverMovies(query)

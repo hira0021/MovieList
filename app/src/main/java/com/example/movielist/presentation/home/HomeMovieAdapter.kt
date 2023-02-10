@@ -17,7 +17,6 @@ class HomeMovieAdapter(
     private val clickListener: (MovieDiscoverResult) -> Unit,
 ) : PagingDataAdapter<MovieDiscoverResult, HomeMovieAdapter.HomeMovieViewHolder>(diffCallback) {
 
-
     inner class HomeMovieViewHolder(val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(context: Context, movieDiscoverResult: MovieDiscoverResult?, clickListener: (MovieDiscoverResult) -> Unit) {
