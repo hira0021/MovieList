@@ -2,6 +2,7 @@
 
 Kotlin Clean Architecture Movie Database App using 
 - Kotlin Flow
+- Kotlin Coroutines
 - Retrofit
 - Dagger Hilt
 - Paging3
