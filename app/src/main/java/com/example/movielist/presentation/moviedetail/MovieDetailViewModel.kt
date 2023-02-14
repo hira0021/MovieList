@@ -20,6 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(val movieInteractor: MovieUseCase) : ViewModel() {
 
+    private var movieId: Int = 0
+
     private val _movieDetail: MutableLiveData<DataState<MovieDetail>> = MutableLiveData()
     val movieDetail: LiveData<DataState<MovieDetail>> = _movieDetail
 
@@ -29,7 +31,11 @@ class MovieDetailViewModel @Inject constructor(val movieInteractor: MovieUseCase
     private val _movieReviews: MutableLiveData<DataState<MovieReview>> = MutableLiveData()
     val movieReviews: LiveData<DataState<MovieReview>> = _movieReviews
 
-    fun getMovieDetail(movieId: Int) = viewModelScope.launch {
+    fun setMovieId(id: Int) {
+        movieId = id
+    }
+
+    fun getMovieDetail() = viewModelScope.launch {
         movieInteractor.getMovieDetail(movieId)
             .flowOn(Dispatchers.IO)
             .catch { e ->
@@ -40,7 +46,7 @@ class MovieDetailViewModel @Inject constructor(val movieInteractor: MovieUseCase
             }
     }
 
-    fun getMovieCredits(movieId: Int) = viewModelScope.launch {
+    fun getMovieCredits() = viewModelScope.launch {
         movieInteractor.getMovieCredits(movieId)
             .flowOn(Dispatchers.IO)
             .catch { e ->
@@ -51,7 +57,7 @@ class MovieDetailViewModel @Inject constructor(val movieInteractor: MovieUseCase
             }
     }
 
-    fun getMovieReviews(movieId: Int) = viewModelScope.launch {
+    fun getMovieReviews() = viewModelScope.launch {
         movieInteractor.getMovieReview(movieId)
             .flowOn(Dispatchers.IO)
             .catch { e ->

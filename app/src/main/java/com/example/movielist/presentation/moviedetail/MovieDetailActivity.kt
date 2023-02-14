@@ -38,11 +38,14 @@ class MovieDetailActivity : AppCompatActivity() {
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+
+        movieId = intent.getIntExtra("movieId", 0)
+        movieDetailViewModel.setMovieId(movieId)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         setupViewPager()
 
-        movieId = intent.getIntExtra("movieId", 0)
         getMovieDetail()
     }
 
@@ -71,7 +74,9 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun getMovieDetail() {
-        movieDetailViewModel.getMovieDetail(movieId)
+        movieDetailViewModel.getMovieDetail()
+        movieDetailViewModel.getMovieCredits()
+        movieDetailViewModel.getMovieReviews()
         movieDetailViewModel.movieDetail.observe(this) {
             when (it) {
                 is DataState.Loading -> {
@@ -127,10 +132,10 @@ class MovieDetailActivity : AppCompatActivity() {
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> MovieDetailOverviewFragment(movieId)
-                1 -> MovieDetailCastFragment(movieId)
-                2 -> MovieDetailReviewFragment(movieId)
-                else -> MovieDetailOverviewFragment(movieId)
+                0 -> MovieDetailOverviewFragment()
+                1 -> MovieDetailCastFragment()
+                2 -> MovieDetailReviewFragment()
+                else -> MovieDetailOverviewFragment()
             }
         }
     }

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movielist.R
 import com.example.movielist.databinding.FragmentMovieDetailOverviewBinding
@@ -16,11 +16,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
-class MovieDetailOverviewFragment(val movieId: Int) : Fragment() {
+class MovieDetailOverviewFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieDetailOverviewBinding
 
-    private val movieDetailViewModel: MovieDetailViewModel by viewModels()
+    private val movieDetailViewModel: MovieDetailViewModel by activityViewModels()
 
     private var genreListName: MutableList<String> = ArrayList()
 
@@ -38,7 +38,6 @@ class MovieDetailOverviewFragment(val movieId: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        movieDetailViewModel.getMovieDetail(movieId)
         movieDetailViewModel.movieDetail.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {

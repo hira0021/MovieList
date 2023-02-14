@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movielist.databinding.FragmentMovieDetailReviewBinding
 import com.example.movielist.domain.entity.MovieReview
@@ -15,18 +14,18 @@ import com.example.movielist.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieDetailReviewFragment(val movieId: Int) : Fragment() {
+class MovieDetailReviewFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieDetailReviewBinding
 
-    private val movieDetailViewModel: MovieDetailViewModel by viewModels()
+    private val movieDetailViewModel: MovieDetailViewModel by activityViewModels()
 
     private lateinit var movieDetailReviewAdapter: MovieDetailReviewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentMovieDetailReviewBinding.inflate(inflater, container, false)
         return binding.root
@@ -35,7 +34,6 @@ class MovieDetailReviewFragment(val movieId: Int) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        movieDetailViewModel.getMovieReviews(movieId)
         movieDetailViewModel.movieReviews.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Loading -> {
