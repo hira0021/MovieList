@@ -1,4 +1,4 @@
-package com.example.movielist.presentation.home
+package com.example.movielist.presentation
 
 import android.util.Log
 import androidx.lifecycle.*
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(val movieInteractor: MovieUseCase) : ViewModel() {
+class MainViewModel @Inject constructor(val movieInteractor: MovieUseCase) : ViewModel() {
 
     // get Movie with SearchQuery
     private val searchQuery = MutableStateFlow("")

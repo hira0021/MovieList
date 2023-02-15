@@ -13,6 +13,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movielist.databinding.FragmentHomeBinding
 import com.example.movielist.domain.entity.MovieDiscoverResult
+import com.example.movielist.presentation.MainViewModel
 import com.example.movielist.presentation.moviedetail.MovieDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -27,7 +28,7 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var homeMovieAdapter: HomeMovieAdapter
 
@@ -47,8 +48,8 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
 
         //get Genre list for discover movie
-        homeViewModel.getGenreListForDiscoverMovie()
-        homeViewModel.movieGenreList.observe(viewLifecycleOwner) {
+        mainViewModel.getGenreListForDiscoverMovie()
+        mainViewModel.movieGenreList.observe(viewLifecycleOwner) {
             if (it != null) {
                 homeMovieAdapter.movieGenreList = it.movieGenres
             }
@@ -56,7 +57,7 @@ class HomeFragment : Fragment() {
 
         // get Discover Movie List paging data
         viewLifecycleOwner.lifecycleScope.launch {
-            homeViewModel.pagingMovieList.collectLatest { pagingData ->
+            mainViewModel.pagingMovieList.collectLatest { pagingData ->
                 homeMovieAdapter.submitData(pagingData)
             }
         }
