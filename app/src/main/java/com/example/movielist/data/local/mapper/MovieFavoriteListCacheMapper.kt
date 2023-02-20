@@ -1,19 +1,18 @@
-package com.example.movielist.data.local
+package com.example.movielist.data.local.mapper
 
 import com.example.movielist.data.local.entity.MovieFavoriteListCacheEntity
-import com.example.movielist.domain.entity.MovieDiscoverResult
+import com.example.movielist.domain.entity.MovieDetail
 import com.example.movielist.util.EntityMapper
 import javax.inject.Inject
 
 class MovieFavoriteListCacheMapper @Inject constructor(
 
-): EntityMapper<MovieFavoriteListCacheEntity, MovieDiscoverResult> {
+): EntityMapper<MovieFavoriteListCacheEntity, MovieDetail> {
 
-    override fun mapFromEntity(entity: MovieFavoriteListCacheEntity): MovieDiscoverResult {
-        return MovieDiscoverResult(
+    override fun mapFromEntity(entity: MovieFavoriteListCacheEntity): MovieDetail {
+        return MovieDetail(
             adult = entity.adult,
             backdropPath = entity.backdropPath,
-            genreIds = entity.genreIds,
             id = entity.id,
             originalLanguage = entity.originalLanguage,
             originalTitle = entity.originalTitle,
@@ -28,11 +27,17 @@ class MovieFavoriteListCacheMapper @Inject constructor(
         )
     }
 
-    override fun mapToEntity(domainModel: MovieDiscoverResult): MovieFavoriteListCacheEntity {
+    override fun mapToEntity(domainModel: MovieDetail): MovieFavoriteListCacheEntity {
+        val genreList: MutableList<String> = arrayListOf()
+        for (i in domainModel.movieGenres) {
+            genreList.add(i.name)
+        }
+
+
         return MovieFavoriteListCacheEntity(
             adult = domainModel.adult,
             backdropPath = domainModel.backdropPath,
-            genreIds = domainModel.genreIds,
+            genreList = genreList.joinToString(),
             id = domainModel.id,
             originalLanguage = domainModel.originalLanguage,
             originalTitle = domainModel.originalTitle,
@@ -47,7 +52,7 @@ class MovieFavoriteListCacheMapper @Inject constructor(
         )
     }
 
-    fun mapFromEntityList(entities: List<MovieFavoriteListCacheEntity>): List<MovieDiscoverResult> {
+    /*un mapFromEntityList(entities: List<MovieFavoriteListCacheEntity>): List<MovieDiscoverResult> {
         return entities.map { mapFromEntity(it) }
-    }
+    }*/
 }

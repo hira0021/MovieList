@@ -1,9 +1,17 @@
 package com.example.movielist.presentation.moviedetail
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.media.MediaScannerConnection
 import android.os.Bundle
+import android.os.Environment
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -17,8 +25,11 @@ import com.example.movielist.presentation.moviedetail.overview.MovieDetailOvervi
 import com.example.movielist.presentation.moviedetail.review.MovieDetailReviewFragment
 import com.example.movielist.util.Const
 import com.example.movielist.util.DataState
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class MovieDetailActivity : AppCompatActivity() {
@@ -28,6 +39,8 @@ class MovieDetailActivity : AppCompatActivity() {
     private val movieDetailViewModel: MovieDetailViewModel by viewModels()
 
     private var movieId: Int = 0
+
+    var movieDetailCache: MovieDetail = MovieDetail()
 
     // title TabLayout
     private val tabTittle = arrayOf("Overview", "Cast", "Review")
@@ -47,6 +60,66 @@ class MovieDetailActivity : AppCompatActivity() {
         setupViewPager()
 
         getMovieDetail()
+
+        binding.fabFavorite.setOnClickListener {
+            val posterPath = saveImageToGallery(binding.ivPoster, true)
+            val backdropPath = saveImageToGallery(binding.ivBackdrop, false)
+            movieDetailCache.posterPath = posterPath
+            movieDetailCache.backdropPath = backdropPath
+            movieDetailViewModel.saveMovie(movieDetailCache)
+        }
+    }
+
+    private fun saveImageToGallery(imageView: ShapeableImageView, posterPath: Boolean): String? {
+        //Check permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+        }
+
+        val bitmap = Bitmap.createBitmap(imageView.width, imageView.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        imageView.draw(canvas)
+
+        val imageDir = File(Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES), "MovieImage")
+        if (!imageDir.exists()) {
+            imageDir.mkdir()
+        }
+
+        val imageFile: File
+        if (posterPath) {
+            val posterDir = File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MovieImage/Poster")
+            if (!posterDir.exists()) {
+                posterDir.mkdir()
+            }
+            imageFile = File(posterDir,"${movieId}.jpg")
+        } else {
+            val backdropDir = File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MovieImage/Backdrop")
+            if (!backdropDir.exists()) {
+                backdropDir.mkdir()
+            }
+            imageFile = File(backdropDir,"${movieId}.jpg")
+        }
+
+        try {
+            val fileOutputStream = FileOutputStream(imageFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+            fileOutputStream.flush()
+            fileOutputStream.close()
+
+            MediaScannerConnection.scanFile(this, arrayOf(imageFile.toString()), null, null)
+            //Toast.makeText(this, "Image saved to gallery", Toast.LENGTH_SHORT).show()
+
+            return imageFile.absolutePath
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
     }
 
     private fun setupViewPager() {
@@ -74,6 +147,11 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun getMovieDetail() {
+        movieDetailViewModel.getMovieCache()
+        movieDetailViewModel.movieFavoriteCache.observe(this) {
+
+        }
+
         movieDetailViewModel.getMovieDetail()
         movieDetailViewModel.getMovieCredits()
         movieDetailViewModel.getMovieReviews()
@@ -103,6 +181,8 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun processSuccess(movieDetail: MovieDetail) {
+
+        movieDetailCache = movieDetail
 
         // Glide ProgressBar
         val circularProgressDrawable = CircularProgressDrawable(this)

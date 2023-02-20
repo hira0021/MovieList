@@ -7,13 +7,13 @@ data class MovieDetail(
     @SerializedName("adult")
     val adult: Boolean = false,
     @SerializedName("backdrop_path")
-    val backdropPath: String = "",
+    var backdropPath: String? = "",
     @SerializedName("belongs_to_collection")
     val belongsToCollection: MovieBelongsToCollection = MovieBelongsToCollection(),
     @SerializedName("budget")
     val budget: Int = 0,
     @SerializedName("genres")
-    val movieGenres: List<MovieGenre> = listOf(),
+    var movieGenres: List<MovieGenre> = listOf(),
     @SerializedName("homepage")
     val homepage: String = "",
     @SerializedName("id")
@@ -29,7 +29,7 @@ data class MovieDetail(
     @SerializedName("popularity")
     val popularity: Double = 0.0,
     @SerializedName("poster_path")
-    val posterPath: String = "",
+    var posterPath: String? = "",
     @SerializedName("production_companies")
     val productionCompanies: List<MovieProductionCompany> = listOf(),
     @SerializedName("production_countries")

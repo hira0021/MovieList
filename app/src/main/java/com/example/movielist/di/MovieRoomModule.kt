@@ -3,7 +3,7 @@ package com.example.movielist.di
 import android.content.Context
 import androidx.room.Room
 import com.example.movielist.data.local.MovieDatabase
-import com.example.movielist.data.local.dao.movieFavoriteListDao
+import com.example.movielist.data.local.dao.MovieFavoriteListDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +29,7 @@ object MovieRoomModule {
 
     @Singleton
     @Provides
-    fun provideDao(movieDatabase: MovieDatabase): movieFavoriteListDao {
+    fun provideDao(movieDatabase: MovieDatabase): MovieFavoriteListDao {
         return movieDatabase.movieFavoriteListDao()
     }
 }

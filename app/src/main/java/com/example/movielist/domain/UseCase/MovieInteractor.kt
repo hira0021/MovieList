@@ -1,6 +1,7 @@
 package com.example.movielist.domain.UseCase
 
 import androidx.paging.PagingData
+import com.example.movielist.data.local.entity.MovieFavoriteListCacheEntity
 import com.example.movielist.domain.entity.*
 import com.example.movielist.domain.repository.IMovieRepository
 import com.example.movielist.util.DataState
@@ -27,4 +28,12 @@ class MovieInteractor @Inject constructor(val repository: IMovieRepository) : Mo
     override suspend fun getMovieReview(movieId: Int): Flow<DataState<MovieReview>> =
         repository.getMovieReviews(movieId)
 
+    override suspend fun saveFavoriteMovie(movieDetail: MovieDetail) =
+        repository.saveMovieToFavorite(movieDetail)
+
+    override suspend fun getFavoriteMovieListCache(): Flow<DataState<List<MovieFavoriteListCacheEntity>>> =
+        repository.getFavoriteMovieListCache()
+
+    override suspend fun getFavoriteMovieCache(id: Int): Flow<DataState<MovieDetail>> =
+        repository.getFavoriteMovieCache(id)
 }

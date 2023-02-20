@@ -8,16 +8,16 @@ import androidx.room.PrimaryKey
 data class MovieFavoriteListCacheEntity (
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
-    var id: Int,
+    val id: Int,
 
     @ColumnInfo(name = "adult")
     val adult: Boolean = false,
 
     @ColumnInfo(name = "backdrop_path")
-    val backdropPath: String = "",
+    val backdropPath: String? = "",
 
     @ColumnInfo(name = "genre_ids")
-    val genreIds: List<Int> = listOf(),
+    val genreList: String = "",
 
     @ColumnInfo(name = "original_language")
     val originalLanguage: String = "",
@@ -32,7 +32,7 @@ data class MovieFavoriteListCacheEntity (
     val popularity: Double = 0.0,
 
     @ColumnInfo(name = "poster_path")
-    val posterPath: String = "",
+    val posterPath: String? = "",
 
     @ColumnInfo(name = "release_date")
     val releaseDate: String = "",

@@ -1,8 +1,9 @@
 package com.example.movielist.data.datasource
 
 import android.util.Log
-import com.example.movielist.data.local.MovieFavoriteListCacheMapper
-import com.example.movielist.data.local.dao.movieFavoriteListDao
+import com.example.movielist.data.local.mapper.MovieFavoriteListCacheMapper
+import com.example.movielist.data.local.dao.MovieFavoriteListDao
+import com.example.movielist.data.local.entity.MovieFavoriteListCacheEntity
 import com.example.movielist.data.remote.MovieService
 import com.example.movielist.domain.entity.*
 import com.example.movielist.util.Const
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class MovieDataSource @Inject constructor(
     val movieRetrofit: MovieService,
-    val movieFavoriteListDao: movieFavoriteListDao,
+    val movieFavoriteListDao: MovieFavoriteListDao,
     val movieFavoriteListCacheMapper: MovieFavoriteListCacheMapper
 ) {
 
@@ -66,8 +67,28 @@ class MovieDataSource @Inject constructor(
         }
     }
 
-    suspend fun saveMovieToFavorite(movieDiscoverResult: MovieDiscoverResult) {
-        val movie = movieFavoriteListCacheMapper.mapToEntity(MovieDiscoverResult())
+    suspend fun saveMovieToFavorite(movieDetail: MovieDetail) {
+        val movie = movieFavoriteListCacheMapper.mapToEntity(movieDetail)
+        movieFavoriteListDao.insertMovieFavoriteList(movie)
+    }
 
+    suspend fun getFavoriteMovieListCache(): Flow<DataState<List<MovieFavoriteListCacheEntity>>> = flow {
+        emit(DataState.Loading)
+        try {
+            val data = movieFavoriteListDao.getMovieFavoriteListCache()
+            emit(DataState.Success(data))
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
+
+    suspend fun getFavoriteMovieCache(id: Int): Flow<DataState<MovieDetail>> = flow {
+        emit(DataState.Loading)
+        try {
+            val data = movieFavoriteListCacheMapper.mapFromEntity(movieFavoriteListDao.getMovieFavoriteCache(id))
+            emit(DataState.Success(data))
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
     }
 }

@@ -3,9 +3,11 @@ package com.example.movielist.presentation
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
+import com.example.movielist.data.local.entity.MovieFavoriteListCacheEntity
 import com.example.movielist.domain.UseCase.MovieUseCase
 import com.example.movielist.domain.entity.MovieDiscoverResult
 import com.example.movielist.domain.entity.MovieGenreList
+import com.example.movielist.util.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -41,6 +43,20 @@ class MainViewModel @Inject constructor(val movieInteractor: MovieUseCase) : Vie
             }
             .collect {
                 _movieGenreList.value = it
+            }
+    }
+
+    private val _movieFavoriteList: MutableLiveData<DataState<List<MovieFavoriteListCacheEntity>>> = MutableLiveData()
+    val movieFavoriteList: LiveData<DataState<List<MovieFavoriteListCacheEntity>>> = _movieFavoriteList
+
+    fun getFavoriteMovieListCache() = viewModelScope.launch {
+        movieInteractor.getFavoriteMovieListCache()
+            .flowOn(Dispatchers.IO)
+            .catch { e ->
+                Log.e("HomeViewModel", e.toString())
+            }
+            .collect {
+                _movieFavoriteList.value = it
             }
     }
 

@@ -1,8 +1,8 @@
 package com.example.movielist.di
 
 import com.example.movielist.data.datasource.MovieDataSource
-import com.example.movielist.data.local.MovieFavoriteListCacheMapper
-import com.example.movielist.data.local.dao.movieFavoriteListDao
+import com.example.movielist.data.local.mapper.MovieFavoriteListCacheMapper
+import com.example.movielist.data.local.dao.MovieFavoriteListDao
 import com.example.movielist.data.pagingsource.MovieResultPagingSource
 import com.example.movielist.data.remote.MovieService
 import dagger.Module
@@ -17,7 +17,7 @@ object MovieDataSourceModule {
 
     @Singleton
     @Provides
-    fun provideMovieDataSource(retrofit: MovieService, movieFavoriteListDao: movieFavoriteListDao, movieFavoriteListCacheMapper: MovieFavoriteListCacheMapper): MovieDataSource {
+    fun provideMovieDataSource(retrofit: MovieService, movieFavoriteListDao: MovieFavoriteListDao, movieFavoriteListCacheMapper: MovieFavoriteListCacheMapper): MovieDataSource {
         return MovieDataSource(retrofit, movieFavoriteListDao, movieFavoriteListCacheMapper)
     }
 

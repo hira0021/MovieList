@@ -86,6 +86,8 @@ class MovieDetailOverviewFragment : Fragment() {
     private fun processSuccess(data: MovieDetail) {
         binding.layoutInformation.visibility = View.VISIBLE
 
+        //movieDetailViewModel.movieDetailCache.movieGenres = genreListName
+
         movieDetailProductionCompaniesAdapter.productionCompanies = data.productionCompanies
 
         binding.apply {

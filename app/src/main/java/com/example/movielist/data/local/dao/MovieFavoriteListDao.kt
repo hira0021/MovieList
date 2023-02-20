@@ -7,11 +7,17 @@ import androidx.room.Query
 import com.example.movielist.data.local.entity.MovieFavoriteListCacheEntity
 
 @Dao
-interface movieFavoriteListDao {
+interface MovieFavoriteListDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovieFavoriteList(movieFavoriteListCacheEntity: MovieFavoriteListCacheEntity): Long
 
     @Query("SELECT * FROM movie_list")
-    suspend fun getMovieFavoriteList(): List<MovieFavoriteListCacheEntity>
+    suspend fun getMovieFavoriteListCache(): List<MovieFavoriteListCacheEntity>
+
+    @Query("SELECT * FROM movie_list WHERE id = :id LIMIT 1")
+    suspend fun getMovieFavoriteCache(id: Int): MovieFavoriteListCacheEntity
+
+    /*@Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMovieFavoriteCast(movieFavoriteCastCacheEntity: MovieFavoriteCastCacheEntity): Long*/
 }

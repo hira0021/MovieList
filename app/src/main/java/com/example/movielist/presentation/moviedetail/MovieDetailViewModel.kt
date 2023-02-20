@@ -31,6 +31,9 @@ class MovieDetailViewModel @Inject constructor(val movieInteractor: MovieUseCase
     private val _movieReviews: MutableLiveData<DataState<MovieReview>> = MutableLiveData()
     val movieReviews: LiveData<DataState<MovieReview>> = _movieReviews
 
+    private val _movieFavoriteCache: MutableLiveData<DataState<MovieDetail>> = MutableLiveData()
+    val movieFavoriteCache: LiveData<DataState<MovieDetail>> = _movieFavoriteCache
+
     fun setMovieId(id: Int) {
         movieId = id
     }
@@ -65,6 +68,21 @@ class MovieDetailViewModel @Inject constructor(val movieInteractor: MovieUseCase
             }
             .collect {
                 _movieReviews.value = it
+            }
+    }
+
+    fun saveMovie(movieDetailCache: MovieDetail) = viewModelScope.launch {
+        movieInteractor.saveFavoriteMovie(movieDetailCache)
+    }
+
+    fun getMovieCache() = viewModelScope.launch {
+        movieInteractor.getFavoriteMovieCache(movieId)
+            .flowOn(Dispatchers.IO)
+            .catch { e ->
+                Log.e("MovieDetailViewModel", e.toString())
+            }
+            .collect {
+                _movieFavoriteCache.value = it
             }
     }
 

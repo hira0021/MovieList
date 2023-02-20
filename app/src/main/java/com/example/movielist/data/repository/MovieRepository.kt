@@ -1,7 +1,10 @@
 package com.example.movielist.data.repository
 
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.movielist.data.datasource.MovieDataSource
+import com.example.movielist.data.local.entity.MovieFavoriteListCacheEntity
 import com.example.movielist.data.pagingsource.MovieResultPagingSource
 import com.example.movielist.domain.entity.*
 import com.example.movielist.domain.repository.IMovieRepository
@@ -12,8 +15,7 @@ import javax.inject.Inject
 class MovieRepository @Inject constructor(
     val movieDataSource: MovieDataSource,
     val movieResultPagingSource: MovieResultPagingSource
-) :
-    IMovieRepository {
+) : IMovieRepository {
 
     override suspend fun getDiscoverMovies(page: Int): Flow<DataState<MovieDiscover>> {
         return movieDataSource.getDiscoverMoviesFromDataSource(page)
@@ -41,6 +43,18 @@ class MovieRepository @Inject constructor(
             config = PagingConfig(pageSize = 20, enablePlaceholders = false),
             pagingSourceFactory = { movieResultPagingSource }
         ).flow
+    }
+
+    override suspend fun saveMovieToFavorite(movieDetail: MovieDetail) {
+        movieDataSource.saveMovieToFavorite(movieDetail)
+    }
+
+    override suspend fun getFavoriteMovieListCache(): Flow<DataState<List<MovieFavoriteListCacheEntity>>> {
+        return movieDataSource.getFavoriteMovieListCache()
+    }
+
+    override suspend fun getFavoriteMovieCache(id: Int): Flow<DataState<MovieDetail>> {
+        return movieDataSource.getFavoriteMovieCache(id)
     }
 
     /*fun getPagingMovie() = Pager(
